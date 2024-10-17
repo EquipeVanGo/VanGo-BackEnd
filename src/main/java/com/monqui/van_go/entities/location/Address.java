@@ -21,16 +21,21 @@ public class Address implements Serializable {
 	private String state;
 	private String number;
 	private String address;
+	private String complement;
+	private String neighborhood;
+
 
 	public Address() {
 	}
 
-	public Address(Long id, String city, String state, String number, String address) {
+	public Address(Long id, String city, String state, String number, String address, String complement, String neighborhood) {
 		this.id = id;
 		this.city = city;
 		this.state = state;
 		this.number = number;
 		this.address = address;
+		this.complement = complement;
+		this.neighborhood = neighborhood;
 	}
 
 	public Long getId() {
@@ -71,6 +76,22 @@ public class Address implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getComplement() {
+		return complement;
+	}
+
+	public void setComplement(String complement) {
+		this.complement = complement;
+	}
+
+	public String getNeighborhood() {
+		return neighborhood;
+	}
+
+	public void setNeighborhood(String neighborhood) {
+		this.neighborhood = neighborhood;
 	}
 
 	@Override

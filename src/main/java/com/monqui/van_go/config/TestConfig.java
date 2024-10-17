@@ -21,7 +21,7 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		Address address1 = new Address(null, "Sorocaba", "São Paulo", "123", "Rua Érick");
+		Address address1 = new Address(null, "Sorocaba", "São Paulo", "123", "Rua Érick", "Apartamento 2", "Jardim das Maças");
 		
 		User user1 = new User(null, "20", "Érick", "ericknp15@gmail.com", "12345678", "15 999999997", address1);
 
