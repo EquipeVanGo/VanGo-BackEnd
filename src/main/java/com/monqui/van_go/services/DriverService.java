@@ -28,5 +28,33 @@ public class DriverService {
 	public Driver insert(Driver driver) {	
 		return repository.save(driver);
 	}
+	
+	public void delete(Long id) {	
+		repository.deleteById(id);
+	}
+	
+	public Driver update(Long id, Driver driver) {
+		
+		Driver entity = repository.getReferenceById(id);
+		updateData(entity, driver);
+		return repository.save(entity);
+		
+	}
+
+	private void updateData(Driver entity, Driver driver) {
+		//Padrão do User
+		entity.setName(driver.getName());
+		entity.setAge(driver.getAge());
+		entity.setEmail(driver.getEmail());
+		entity.setPassword(driver.getPassword());
+		entity.setTelephone(driver.getTelephone());
+		entity.setAddress(driver.getAddress());
+		
+		//Variáveis do motorista
+		entity.setCnh(driver.getCnh());
+		entity.setCnhCategory(driver.getCnhCategory());
+		entity.setValidityCnh(driver.getValidityCnh());	
+		
+	}
 
 }
