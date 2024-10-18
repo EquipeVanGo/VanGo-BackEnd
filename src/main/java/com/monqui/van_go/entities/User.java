@@ -6,24 +6,21 @@ import java.util.Objects;
 import com.monqui.van_go.entities.location.Address;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "tb_user")
-public class User implements Serializable {
+@MappedSuperclass
+public abstract class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	//DEVE SER DEFINIDA COMO ABSTRACT APÓS TESTES/CRIAÇÃO DE MOTORISTA/PASSAGEIRO
-
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	private String age;
 	private String name;
 	private String email;
@@ -36,10 +33,20 @@ public class User implements Serializable {
 
 	public User() {
 	}
-
+	
 	public User(Long id, String age, String name, String email, String password, String telephone, Address address) {
 		this.id = id;
 		this.age = age;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.telephone = telephone;
+		this.address = address;
+	}
+	
+	//Criar empresa sem idade
+	public User(Long id, String name, String email, String password, String telephone, Address address) {
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
