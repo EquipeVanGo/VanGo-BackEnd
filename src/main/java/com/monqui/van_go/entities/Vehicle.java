@@ -3,34 +3,44 @@ package com.monqui.van_go.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-//@Entity
-//@Table(name = "tb_vehicle")
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_vehicle")
 public class Vehicle implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	//@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String plate;
 	private String color;
-	private int year;
+	private int vehicle_year;
 	private int quantityPlaces;
+	
+	@ManyToOne
+    @JoinColumn(name = "enterprise_id") 
+	@JsonBackReference
+    private Enterprise enterprise;
 	
 	public Vehicle() {
 	}
 
-	public Vehicle(Long id, String plate, String color, int year, int quantityPlaces) {
+	public Vehicle(Long id, String plate, String color, int vehicle_year, int quantityPlaces, Enterprise enterprise) {
 		this.id = id;
 		this.plate = plate;
 		this.color = color;
-		this.year = year;
+		this.vehicle_year = vehicle_year;
+		this.enterprise = enterprise;
 		this.quantityPlaces = quantityPlaces;
 	}
 
@@ -59,11 +69,11 @@ public class Vehicle implements Serializable{
 	}
 
 	public int getYear() {
-		return year;
+		return vehicle_year;
 	}
 
-	public void setYear(int year) {
-		this.year = year;
+	public void setYear(int vehicle_year) {
+		this.vehicle_year = vehicle_year;
 	}
 
 	public int getQuantityPlaces() {
@@ -72,6 +82,14 @@ public class Vehicle implements Serializable{
 
 	public void setQuantityPlaces(int quantityPlaces) {
 		this.quantityPlaces = quantityPlaces;
+	}
+
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
 	}
 
 	@Override

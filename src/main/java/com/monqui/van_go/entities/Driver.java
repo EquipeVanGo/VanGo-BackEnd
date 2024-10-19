@@ -3,9 +3,12 @@ package com.monqui.van_go.entities;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.monqui.van_go.entities.location.Address;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -21,16 +24,21 @@ public class Driver extends User {
 	@Temporal(TemporalType.DATE) 
     private LocalDate validityCnh;
 	
+	@ManyToOne
+    @JoinColumn(name = "enterprise_id") 
+	@JsonBackReference
+    private Enterprise enterprise;
+	
 
 	public Driver() {
-		super();
 	}
 
-	public Driver(Long id, String age, String name, String email, String password, String telephone, Address address, String cnh, String cnhCategory, LocalDate validityCnh) {
+	public Driver(Long id, String age, String name, String email, String password, String telephone, Address address, String cnh, String cnhCategory, LocalDate validityCnh, Enterprise enterprise) {
 		super(id ,age, name, email, password, telephone, address);
 		this.cnh = cnh;
 		this.cnhCategory = cnhCategory;
 		this.validityCnh = validityCnh;
+		this.enterprise = enterprise;
 	}
 
 	public String getCnh() {
@@ -57,6 +65,13 @@ public class Driver extends User {
 		this.validityCnh = validityCnh;
 	}
 
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
+	}
 
 	@Override
 	public int hashCode() {
