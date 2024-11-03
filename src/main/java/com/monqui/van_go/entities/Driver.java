@@ -9,6 +9,7 @@ import com.monqui.van_go.entities.location.Address;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -20,6 +21,7 @@ public class Driver extends User {
 	
 	private String cnh;
 	private String cnhCategory;
+	private boolean active = true;
 	
 	@Temporal(TemporalType.DATE) 
     private LocalDate validityCnh;
@@ -29,16 +31,21 @@ public class Driver extends User {
 	@JsonBackReference
     private Enterprise enterprise;
 	
+	@OneToOne
+	private Vehicle vehicle;
+	
+	
 
 	public Driver() {
 	}
 
-	public Driver(Long id, String age, String name, String email, String password, String telephone, Address address, String cnh, String cnhCategory, LocalDate validityCnh, Enterprise enterprise) {
+	public Driver(Long id, String age, String name, String email, String password, String telephone, Address address, String cnh, String cnhCategory, LocalDate validityCnh, Enterprise enterprise, Vehicle vehicle) {
 		super(id ,age, name, email, password, telephone, address);
 		this.cnh = cnh;
 		this.cnhCategory = cnhCategory;
 		this.validityCnh = validityCnh;
 		this.enterprise = enterprise;
+		this.vehicle = vehicle;
 	}
 
 	public String getCnh() {
@@ -71,6 +78,22 @@ public class Driver extends User {
 
 	public void setEnterprise(Enterprise enterprise) {
 		this.enterprise = enterprise;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public boolean getActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override

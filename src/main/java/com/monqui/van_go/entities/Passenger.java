@@ -20,6 +20,8 @@ public class Passenger extends User {
     @JoinColumn(name = "timeline_id")  
     private Timeline timeline;
 
+	private boolean active = true;
+
 
 	public Passenger() {
 	}
@@ -40,6 +42,16 @@ public class Passenger extends User {
 		this.timeline = timeline;
 	}
 	
+	public boolean getActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -1,7 +1,5 @@
 package com.monqui.van_go.entities;
 
-import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +17,8 @@ public class Enterprise extends User {
 	private static final long serialVersionUID = 1L;
 
 	private String cnpj;
+	private boolean active = true;
+
 
 	@OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -63,6 +63,14 @@ public class Enterprise extends User {
 		this.vehicles = vehicles;
 	}
 	
+	public boolean getActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 
 	@Override
 	public int hashCode() {

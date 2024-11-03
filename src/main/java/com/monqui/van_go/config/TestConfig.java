@@ -43,7 +43,7 @@ public class TestConfig implements CommandLineRunner{
 	    enterprise1.setVehicles(Arrays.asList(vehicle1));
 
 	    Address address1 = new Address(null, "Sorocaba", "São Paulo", "123", "Rua Érick", "Apartamento 2", "Jardim das Maças");
-	    Driver driver1 = new Driver(null, "20", "Érick", "ericknp15@gmail.com", "12345678", "15 999999997", address1, "cnh1", "AB", LocalDate.of(2024, 10, 18), enterprise1);
+	    Driver driver1 = new Driver(null, "20", "Érick", "ericknp15@gmail.com", "12345678", "15 999999997", address1, "cnh1", "AB", LocalDate.of(2024, 10, 18), enterprise1, null);
 	    enterprise1.setDrivers(Arrays.asList(driver1));
 
 	    enterpriseRepository.save(enterprise1);
