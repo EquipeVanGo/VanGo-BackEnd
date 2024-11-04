@@ -68,8 +68,10 @@ public class PassengerService {
 		entity.setTelephone(passenger.getTelephone());
 		entity.setAddress(passenger.getAddress());
 
+
 		// Variáveis do passageiro
 		entity.setTimeline(passenger.getTimeline());
+		entity.setActive(passenger.getActive());
 
 	}
 
