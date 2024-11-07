@@ -22,6 +22,9 @@ public class Driver extends User {
 	private String cnh;
 	private String cnhCategory;
 	private boolean active = true;
+
+	private final char typeEntity = 'D'; 
+
 	
 	@Temporal(TemporalType.DATE) 
     private LocalDate validityCnh;
@@ -33,6 +36,7 @@ public class Driver extends User {
 	
 	@OneToOne
 	private Vehicle vehicle;
+	
 	
 	
 
@@ -95,6 +99,11 @@ public class Driver extends User {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	public char getTypeEntity() {
+		return typeEntity;
+	}
+
 
 	@Override
 	public int hashCode() {

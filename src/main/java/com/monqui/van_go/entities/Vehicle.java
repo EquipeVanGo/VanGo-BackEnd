@@ -26,6 +26,8 @@ public class Vehicle implements Serializable{
 	private String color;
 	private int vehicle_year;
 	private int quantityPlaces;
+	private final char typeEntity = 'V'; 
+
 	
 	@ManyToOne
     @JoinColumn(name = "enterprise_id") 
@@ -90,6 +92,18 @@ public class Vehicle implements Serializable{
 
 	public void setEnterprise(Enterprise enterprise) {
 		this.enterprise = enterprise;
+	}
+
+	public int getVehicle_year() {
+		return vehicle_year;
+	}
+
+	public void setVehicle_year(int vehicle_year) {
+		this.vehicle_year = vehicle_year;
+	}
+
+	public char getTypeEntity() {
+		return typeEntity;
 	}
 
 	@Override

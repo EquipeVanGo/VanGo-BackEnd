@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.monqui.van_go.entities.Driver;
+import com.monqui.van_go.entities.Vehicle;
 import com.monqui.van_go.repositories.DriverRepository;
 
 @Service
@@ -16,6 +17,9 @@ public class DriverService {
 
 	@Autowired
 	private DriverRepository repository;
+	
+	@Autowired
+	private VehicleService vehicleService;
 
 	public List<Driver> findAll() {
 		return repository.findByActiveTrue();
@@ -73,8 +77,26 @@ public class DriverService {
 		entity.setCnhCategory(driver.getCnhCategory());
 		entity.setValidityCnh(driver.getValidityCnh());
 		entity.setActive(driver.getActive());
-
-
+		entity.setVehicle(driver.getVehicle());
 	}
+	
+	public Driver assignVehicleToDriver(Long driverId, Long vehicleId) {
+		Driver driver = findById(driverId);
+	    if (driver == null) {
+	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Driver not found with ID: " + driverId);
+	    }
+
+	    Vehicle vehicle = vehicleService.findById(vehicleId);
+	    if (vehicle == null) {
+	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found with ID: " + vehicleId);
+	    }
+	    
+	    driver.setVehicle(vehicle);  
+	    return repository.save(driver);
+		
+	}
+	
+	
+	
 
 }

@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.monqui.van_go.entities.Driver;
-import com.monqui.van_go.entities.Vehicle;
 import com.monqui.van_go.services.DriverService;
-import com.monqui.van_go.services.VehicleService;
 
 @RestController
 @RequestMapping(value = "/drivers")
@@ -30,8 +26,6 @@ public class DriverResource {
 	@Autowired
 	private DriverService service;
 	
-	@Autowired
-	private VehicleService vehicleService;
 	
 	@GetMapping
 	public ResponseEntity<List<Driver>> findAll() {
@@ -75,22 +69,10 @@ public class DriverResource {
 	}
 	
 	@PatchMapping("/{driverId}/{vehicleId}")
-	public Driver assignVehicleToDriver(@PathVariable Long driverId, @PathVariable Long vehicleId) {
+	public ResponseEntity<Driver> assignVehicleToDriver(@PathVariable Long driverId, @PathVariable Long vehicleId) {
 
-		
-	    Driver driver = service.findById(driverId);
-	    if (driver == null) {
-	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Driver not found with ID: " + driverId);
-	    }
-
-	    Vehicle vehicle = vehicleService.findById(vehicleId);
-	    if (vehicle == null) {
-	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found with ID: " + vehicleId);
-	    }
-	    
-	    driver.setVehicle(vehicle);  
-	    return service.update(driverId ,driver);
-	    
+		Driver driver = service.assignVehicleToDriver(driverId, vehicleId);
+		return ResponseEntity.ok().body(driver);
 	}
 	
 	

@@ -15,33 +15,31 @@ import jakarta.persistence.Table;
 public class Passenger extends User {
 	private static final long serialVersionUID = 1L;
 
-	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "timeline_id")  
-    private Timeline timeline;
+	@JoinColumn(name = "timeline_id")
+	private Timeline timeline;
 
 	private boolean active = true;
 
+	private final char typeEntity = 'P';
 
 	public Passenger() {
 	}
 
-
-	public Passenger(Long id, String age, String name, String email, String password, String telephone, Address address, Timeline timeline) {
-		super(id ,age, name, email, password, telephone, address);
+	public Passenger(Long id, String age, String name, String email, String password, String telephone, Address address,
+			Timeline timeline) {
+		super(id, age, name, email, password, telephone, address);
 		this.timeline = timeline;
 	}
-
 
 	public Timeline getTimeline() {
 		return timeline;
 	}
 
-
 	public void setTimeline(Timeline timeline) {
 		this.timeline = timeline;
 	}
-	
+
 	public boolean getActive() {
 		return active;
 	}
@@ -50,7 +48,9 @@ public class Passenger extends User {
 		this.active = active;
 	}
 
-
+	public char getTypeEntity() {
+		return typeEntity;
+	}
 
 	@Override
 	public int hashCode() {
@@ -71,6 +71,5 @@ public class Passenger extends User {
 		Driver other = (Driver) obj;
 		return Objects.equals(super.getId(), other.getId());
 	}
-	
-	
+
 }

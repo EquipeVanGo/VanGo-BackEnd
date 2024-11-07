@@ -44,7 +44,7 @@ public class VehicleService {
 	private void updateData(Vehicle entity, Vehicle vehicle) {
 		entity.setPlate(vehicle.getPlate());
 		entity.setColor(vehicle.getColor());
-		entity.setYear(vehicle.getYear());	
+		entity.setVehicle_year(vehicle.getVehicle_year());
 		entity.setQuantityPlaces(vehicle.getQuantityPlaces());
 	}
 

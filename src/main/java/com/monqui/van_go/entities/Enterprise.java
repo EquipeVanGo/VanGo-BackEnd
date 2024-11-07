@@ -18,6 +18,9 @@ public class Enterprise extends User {
 
 	private String cnpj;
 	private boolean active = true;
+	
+	private final char typeEntity = 'E'; 
+
 
 
 	@OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL)
@@ -71,6 +74,9 @@ public class Enterprise extends User {
 		this.active = active;
 	}
 
+	public char getTypeEntity() {
+		return typeEntity;
+	}
 
 	@Override
 	public int hashCode() {
