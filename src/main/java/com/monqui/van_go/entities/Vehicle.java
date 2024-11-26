@@ -26,6 +26,8 @@ public class Vehicle implements Serializable{
 	private String color;
 	private int vehicle_year;
 	private int quantityPlaces;
+	private boolean active = true;
+
 	private final char typeEntity = 'V'; 
 
 	
@@ -104,6 +106,14 @@ public class Vehicle implements Serializable{
 
 	public char getTypeEntity() {
 		return typeEntity;
+	}
+
+	public boolean getActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override

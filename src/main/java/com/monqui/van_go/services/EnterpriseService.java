@@ -39,6 +39,21 @@ public class EnterpriseService {
 	public void delete(Long id) {
 		Enterprise enterprise = findById(id);
 		enterprise.setActive(false);
+
+		List<Driver> listDrivers = enterprise.getDrivers();
+		List<Vehicle> listVehicles = enterprise.getVehicles();
+
+		// Inativar Drivers associados a Enterprise:
+		for (Driver driver : listDrivers) {
+			driver.setActive(false);
+			driverRepository.save(driver);
+		}
+		// Inativar Vehicles associados a Enterprise:
+		for (Vehicle vehicle : listVehicles) {
+			vehicle.setActive(false);
+			vehicleRepository.save(vehicle);
+		}
+
 		repository.save(enterprise);
 	}
 

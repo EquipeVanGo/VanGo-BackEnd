@@ -31,8 +31,9 @@ public class VehicleService {
 	}
 	
 	public void delete(Long id) {	
-		repository.deleteById(id);
-	}
+		Vehicle vehicle = findById(id);
+		vehicle.setActive(false);
+		repository.save(vehicle);	}
 	
 	public Vehicle update(Long id, Vehicle vehicle) {
 		Vehicle entity = repository.getReferenceById(id);
