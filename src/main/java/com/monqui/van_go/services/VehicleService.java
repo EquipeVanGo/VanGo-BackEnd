@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.monqui.van_go.entities.Vehicle;
 import com.monqui.van_go.repositories.VehicleRepository;
+import com.monqui.van_go.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class VehicleService {
@@ -22,7 +23,7 @@ public class VehicleService {
 	public Vehicle findById(Long id) {
 		
 		Optional<Vehicle> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public Vehicle insert(Vehicle vehicle) {	
@@ -34,11 +35,9 @@ public class VehicleService {
 	}
 	
 	public Vehicle update(Long id, Vehicle vehicle) {
-		
 		Vehicle entity = repository.getReferenceById(id);
 		updateData(entity, vehicle);
 		return repository.save(entity);
-		
 	}
 
 	private void updateData(Vehicle entity, Vehicle vehicle) {

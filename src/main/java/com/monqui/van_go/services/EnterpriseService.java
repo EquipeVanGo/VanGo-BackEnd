@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.monqui.van_go.entities.Driver;
 import com.monqui.van_go.entities.Enterprise;
@@ -14,6 +12,7 @@ import com.monqui.van_go.entities.Vehicle;
 import com.monqui.van_go.repositories.DriverRepository;
 import com.monqui.van_go.repositories.EnterpriseRepository;
 import com.monqui.van_go.repositories.VehicleRepository;
+import com.monqui.van_go.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class EnterpriseService {
@@ -30,7 +29,7 @@ public class EnterpriseService {
 	public Enterprise findById(Long id) {
 
 		Optional<Enterprise> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	public Enterprise insert(Enterprise enterprise) {
@@ -39,30 +38,20 @@ public class EnterpriseService {
 
 	public void delete(Long id) {
 		Enterprise enterprise = findById(id);
-		if (enterprise == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Enterprise not found with ID: " + id);
-		}
-
 		enterprise.setActive(false);
 		repository.save(enterprise);
 	}
 
 	public Enterprise activate(Long id) {
 		Enterprise enterprise = findById(id);
-		if (enterprise == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Enterprise not found with ID: " + id);
-		}
-
 		enterprise.setActive(true);
 		return update(id, enterprise);
 	}
 
 	public Enterprise update(Long id, Enterprise enterprise) {
-
 		Enterprise entity = repository.getReferenceById(id);
 		updateData(entity, enterprise);
 		return repository.save(entity);
-
 	}
 
 	private void updateData(Enterprise entity, Enterprise enterprise) {

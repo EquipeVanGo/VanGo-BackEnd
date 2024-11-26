@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.monqui.van_go.entities.Driver;
 import com.monqui.van_go.entities.Vehicle;
 import com.monqui.van_go.repositories.DriverRepository;
+import com.monqui.van_go.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class DriverService {
@@ -28,7 +27,7 @@ public class DriverService {
 	public Driver findById(Long id) {
 
 		Optional<Driver> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	public Driver insert(Driver driver) {
@@ -37,20 +36,12 @@ public class DriverService {
 
 	public void delete(Long id) {
 		Driver driver = findById(id);
-		if (driver == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Driver not found with ID: " + id);
-		}
-		
 		driver.setActive(false);
 		repository.save(driver);
 	}
 
 	public Driver activate(Long id) {
 		Driver driver = findById(id);
-		if (driver == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Driver not found with ID: " + id);
-		}
-		
 		driver.setActive(true);
 		return repository.save(driver);
 	}
@@ -82,21 +73,9 @@ public class DriverService {
 	
 	public Driver assignVehicleToDriver(Long driverId, Long vehicleId) {
 		Driver driver = findById(driverId);
-	    if (driver == null) {
-	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Driver not found with ID: " + driverId);
-	    }
-
 	    Vehicle vehicle = vehicleService.findById(vehicleId);
-	    if (vehicle == null) {
-	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found with ID: " + vehicleId);
-	    }
-	    
 	    driver.setVehicle(vehicle);  
 	    return repository.save(driver);
-		
 	}
 	
-	
-	
-
 }
