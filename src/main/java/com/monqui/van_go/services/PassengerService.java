@@ -10,6 +10,8 @@ import com.monqui.van_go.entities.Passenger;
 import com.monqui.van_go.repositories.PassengerRepository;
 import com.monqui.van_go.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class PassengerService {
 
@@ -43,9 +45,13 @@ public class PassengerService {
 	}
 
 	public Passenger update(Long id, Passenger passenger) {
-		Passenger entity = repository.getReferenceById(id);
-		updateData(entity, passenger);
-		return repository.save(entity);
+		try {
+			Passenger entity = repository.getReferenceById(id);
+			updateData(entity, passenger);
+			return repository.save(entity);
+		} catch (EntityNotFoundException exception) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Passenger entity, Passenger passenger) {

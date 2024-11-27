@@ -14,6 +14,8 @@ import com.monqui.van_go.repositories.EnterpriseRepository;
 import com.monqui.van_go.repositories.VehicleRepository;
 import com.monqui.van_go.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class EnterpriseService {
 
@@ -64,9 +66,13 @@ public class EnterpriseService {
 	}
 
 	public Enterprise update(Long id, Enterprise enterprise) {
-		Enterprise entity = repository.getReferenceById(id);
-		updateData(entity, enterprise);
-		return repository.save(entity);
+		try {
+			Enterprise entity = repository.getReferenceById(id);
+			updateData(entity, enterprise);
+			return repository.save(entity);
+		} catch (EntityNotFoundException exception) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Enterprise entity, Enterprise enterprise) {

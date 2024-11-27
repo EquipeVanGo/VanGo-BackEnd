@@ -11,12 +11,14 @@ import com.monqui.van_go.entities.Vehicle;
 import com.monqui.van_go.repositories.DriverRepository;
 import com.monqui.van_go.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class DriverService {
 
 	@Autowired
 	private DriverRepository repository;
-	
+
 	@Autowired
 	private VehicleService vehicleService;
 
@@ -47,11 +49,13 @@ public class DriverService {
 	}
 
 	public Driver update(Long id, Driver driver) {
-
-		Driver entity = repository.getReferenceById(id);
-		updateData(entity, driver);
-		return repository.save(entity);
-
+		try {
+			Driver entity = repository.getReferenceById(id);
+			updateData(entity, driver);
+			return repository.save(entity);
+		} catch (EntityNotFoundException exception) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Driver entity, Driver driver) {
@@ -70,12 +74,12 @@ public class DriverService {
 		entity.setActive(driver.getActive());
 		entity.setVehicle(driver.getVehicle());
 	}
-	
+
 	public Driver assignVehicleToDriver(Long driverId, Long vehicleId) {
 		Driver driver = findById(driverId);
-	    Vehicle vehicle = vehicleService.findById(vehicleId);
-	    driver.setVehicle(vehicle);  
-	    return repository.save(driver);
+		Vehicle vehicle = vehicleService.findById(vehicleId);
+		driver.setVehicle(vehicle);
+		return repository.save(driver);
 	}
-	
+
 }

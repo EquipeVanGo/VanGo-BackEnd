@@ -10,35 +10,42 @@ import com.monqui.van_go.entities.Vehicle;
 import com.monqui.van_go.repositories.VehicleRepository;
 import com.monqui.van_go.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class VehicleService {
-	
+
 	@Autowired
 	private VehicleRepository repository;
-	
-	public List<Vehicle> findAll(){
+
+	public List<Vehicle> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public Vehicle findById(Long id) {
-		
+
 		Optional<Vehicle> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-	
-	public Vehicle insert(Vehicle vehicle) {	
+
+	public Vehicle insert(Vehicle vehicle) {
 		return repository.save(vehicle);
 	}
-	
-	public void delete(Long id) {	
+
+	public void delete(Long id) {
 		Vehicle vehicle = findById(id);
 		vehicle.setActive(false);
-		repository.save(vehicle);	}
-	
+		repository.save(vehicle);
+	}
+
 	public Vehicle update(Long id, Vehicle vehicle) {
-		Vehicle entity = repository.getReferenceById(id);
-		updateData(entity, vehicle);
-		return repository.save(entity);
+		try {
+			Vehicle entity = repository.getReferenceById(id);
+			updateData(entity, vehicle);
+			return repository.save(entity);
+		} catch (EntityNotFoundException exception) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Vehicle entity, Vehicle vehicle) {
