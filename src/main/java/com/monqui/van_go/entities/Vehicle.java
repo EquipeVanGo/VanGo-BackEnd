@@ -15,34 +15,36 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_vehicle")
-public class Vehicle implements Serializable{
+public class Vehicle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String plate;
 	private String color;
+	private String model;
 	private int vehicle_year;
 	private int quantityPlaces;
 	private boolean active = true;
 
-	private final char typeEntity = 'V'; 
+	private final char typeEntity = 'V';
 
-	
 	@ManyToOne
-    @JoinColumn(name = "enterprise_id") 
+	@JoinColumn(name = "enterprise_id")
 	@JsonBackReference
-    private Enterprise enterprise;
-	
+	private Enterprise enterprise;
+
 	public Vehicle() {
 	}
 
-	public Vehicle(Long id, String plate, String color, int vehicle_year, int quantityPlaces, Enterprise enterprise) {
+	public Vehicle(Long id, String plate, String color, String model, int vehicle_year, int quantityPlaces,
+			Enterprise enterprise) {
 		this.id = id;
 		this.plate = plate;
 		this.color = color;
+		this.model = model;
 		this.vehicle_year = vehicle_year;
 		this.enterprise = enterprise;
 		this.quantityPlaces = quantityPlaces;
@@ -70,14 +72,6 @@ public class Vehicle implements Serializable{
 
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public int getYear() {
-		return vehicle_year;
-	}
-
-	public void setYear(int vehicle_year) {
-		this.vehicle_year = vehicle_year;
 	}
 
 	public int getQuantityPlaces() {
@@ -114,6 +108,14 @@ public class Vehicle implements Serializable{
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
 	}
 
 	@Override

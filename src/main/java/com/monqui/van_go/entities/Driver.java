@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.monqui.van_go.entities.location.Address;
 
 import jakarta.persistence.Entity;
@@ -25,7 +26,7 @@ public class Driver extends User {
 
 	private final char typeEntity = 'D'; 
 
-	
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE) 
     private LocalDate validityCnh;
 	

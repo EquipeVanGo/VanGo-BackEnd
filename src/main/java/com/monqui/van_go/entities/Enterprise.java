@@ -1,5 +1,6 @@
 package com.monqui.van_go.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ import com.monqui.van_go.entities.location.Address;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -18,18 +20,16 @@ public class Enterprise extends User {
 
 	private String cnpj;
 	private boolean active = true;
-	
-	private final char typeEntity = 'E'; 
 
+	private final char typeEntity = 'E';
 
-
-	@OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonManagedReference
-	private List<Driver> drivers;
+	private List<Driver> drivers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonManagedReference
-	private List<Vehicle> vehicles;
+	private List<Vehicle> vehicles = new ArrayList<>();
 
 	public Enterprise() {
 	}
@@ -38,8 +38,8 @@ public class Enterprise extends User {
 			String cnpj, List<Driver> drivers, List<Vehicle> vehicles) {
 		super(id, name, email, password, telephone, address);
 		this.cnpj = cnpj;
-		this.drivers = drivers;
-		this.vehicles = vehicles;
+		this.drivers = (drivers != null) ? drivers : new ArrayList<>(); 
+		this.vehicles = (vehicles != null) ? vehicles : new ArrayList<>(); 
 	}
 
 	public String getCnpj() {
@@ -65,7 +65,7 @@ public class Enterprise extends User {
 	public void setVehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 	}
-	
+
 	public boolean getActive() {
 		return active;
 	}

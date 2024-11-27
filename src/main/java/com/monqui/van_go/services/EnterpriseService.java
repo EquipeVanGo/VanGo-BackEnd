@@ -28,6 +28,10 @@ public class EnterpriseService {
 	@Autowired
 	private DriverRepository driverRepository;
 
+	public List<Enterprise> findAll() {
+		return repository.findByActiveTrue();
+	}
+
 	public Enterprise findById(Long id) {
 
 		Optional<Enterprise> obj = repository.findById(id);
@@ -95,6 +99,18 @@ public class EnterpriseService {
 
 	public List<Driver> getDriversByEnterprise(Long enterpriseId) {
 		return driverRepository.findByEnterpriseId(enterpriseId);
+	}
+
+	public Driver addDriverToEnterprise(Long enterpriseId, Driver driver) {
+		Enterprise enterprise = findById(enterpriseId);
+		driver.setEnterprise(enterprise);
+		return driverRepository.save(driver);
+	}
+
+	public Vehicle addVehicleToEnterprise(Long enterpriseId, Vehicle vehicle) {
+		Enterprise enterprise = findById(enterpriseId);
+		vehicle.setEnterprise(enterprise);
+		return vehicleRepository.save(vehicle);
 	}
 
 }

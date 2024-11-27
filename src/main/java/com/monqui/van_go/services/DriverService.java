@@ -32,9 +32,10 @@ public class DriverService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public Driver insert(Driver driver) {
-		return repository.save(driver);
-	}
+	// Desabilitado devido a RN de ser criado somente por empresa.
+//	public Driver insert(Driver driver) {
+//		return repository.save(driver);
+//	}
 
 	public void delete(Long id) {
 		Driver driver = findById(id);
@@ -79,6 +80,12 @@ public class DriverService {
 		Driver driver = findById(driverId);
 		Vehicle vehicle = vehicleService.findById(vehicleId);
 		driver.setVehicle(vehicle);
+		return repository.save(driver);
+	}
+
+	public Driver removeVehicleFromDriver(Long driverId) {
+		Driver driver = findById(driverId);
+		driver.setVehicle(null);
 		return repository.save(driver);
 	}
 
