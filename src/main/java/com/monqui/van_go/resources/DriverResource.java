@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.monqui.van_go.entities.Driver;
@@ -71,12 +72,18 @@ public class DriverResource {
 		Driver driver = service.assignVehicleToDriver(driverId, vehicleId);
 		return ResponseEntity.ok().body(driver);
 	}
-	
+
 	@PatchMapping("/{driverId}/removeVehicle")
 	public ResponseEntity<Driver> assignVehicleToDriver(@PathVariable Long driverId) {
 
 		Driver driver = service.removeVehicleFromDriver(driverId);
 		return ResponseEntity.ok().body(driver);
+	}
+
+	@GetMapping("/validate")
+	public ResponseEntity<Boolean> isValidDriver(@RequestParam String email, @RequestParam String password) {
+		boolean isValid = service.isValidDriver(email, password);
+		return ResponseEntity.ok(isValid);
 	}
 
 }

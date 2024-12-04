@@ -88,5 +88,10 @@ public class DriverService {
 		driver.setVehicle(null);
 		return repository.save(driver);
 	}
-
+	
+	// Ainda não implementado o PasswordEncoder
+	public boolean isValidDriver(String email, String password) {
+	    Optional<Driver> driverOptional = repository.findByEmailAndPassword(email, password);
+	    return driverOptional.isPresent();
+	}
 }

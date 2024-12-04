@@ -113,4 +113,10 @@ public class EnterpriseService {
 		return vehicleRepository.save(vehicle);
 	}
 
+	// Ainda não implementado o PasswordEncoder
+	public boolean isValidDriver(String email, String password) {
+		Optional<Enterprise> enterpriseOptional = repository.findByEmailAndPassword(email, password);
+		return enterpriseOptional.isPresent();
+	}
+
 }

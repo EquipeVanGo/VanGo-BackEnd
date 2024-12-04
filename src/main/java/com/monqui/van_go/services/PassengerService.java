@@ -69,4 +69,10 @@ public class PassengerService {
 
 	}
 
+	// Ainda não implementado o PasswordEncoder
+	public boolean isValidDriver(String email, String password) {
+		Optional<Passenger> passengerOptional = repository.findByEmailAndPassword(email, password);
+		return passengerOptional.isPresent();
+	}
+
 }
