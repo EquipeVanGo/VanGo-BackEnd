@@ -69,8 +69,8 @@ public class PassengerResource {
 	}
 
 	@GetMapping("/validate")
-	public ResponseEntity<Boolean> isValidDriver(@RequestParam String email, @RequestParam String password) {
-		boolean isValid = service.isValidDriver(email, password);
+	public ResponseEntity<Boolean> isValidPassenger(@RequestParam String email, @RequestParam String password) {
+		boolean isValid = service.isValidPassenger(email, password);
 		return ResponseEntity.ok(isValid);
 	}
 

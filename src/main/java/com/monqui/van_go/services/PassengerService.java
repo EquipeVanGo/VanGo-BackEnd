@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.monqui.van_go.entities.Passenger;
@@ -17,6 +18,12 @@ public class PassengerService {
 
 	@Autowired
 	private PassengerRepository repository;
+	
+    private final PasswordEncoder passwordEncoder;
+
+    public PassengerService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder; 
+    }
 
 	public List<Passenger> findAll() {
 		return repository.findByActiveTrue();
@@ -29,6 +36,7 @@ public class PassengerService {
 	}
 
 	public Passenger insert(Passenger passenger) {
+		passenger.setPassword(passwordEncoder.encode(passenger.getPassword()));
 		return repository.save(passenger);
 	}
 
@@ -69,10 +77,14 @@ public class PassengerService {
 
 	}
 
-	// Ainda não implementado o PasswordEncoder
-	public boolean isValidDriver(String email, String password) {
-		Optional<Passenger> passengerOptional = repository.findByEmailAndPassword(email, password);
-		return passengerOptional.isPresent();
+	public boolean isValidPassenger(String email, String password) {
+	    Optional<Passenger> passengerOptional = repository.findByEmail(email);
+
+	    if (passengerOptional.isPresent()) {
+	        Passenger passenger = passengerOptional.get();
+	        return passwordEncoder.matches(password, passenger.getPassword());
+	    }
+	    return false;
 	}
 
 }

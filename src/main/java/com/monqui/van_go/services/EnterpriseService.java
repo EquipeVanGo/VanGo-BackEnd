@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.monqui.van_go.entities.Driver;
@@ -27,7 +28,13 @@ public class EnterpriseService {
 
 	@Autowired
 	private DriverRepository driverRepository;
+	
+	private final PasswordEncoder passwordEncoder;
 
+    public EnterpriseService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder; 
+    }
+    
 	public List<Enterprise> findAll() {
 		return repository.findByActiveTrue();
 	}
@@ -39,6 +46,7 @@ public class EnterpriseService {
 	}
 
 	public Enterprise insert(Enterprise enterprise) {
+		enterprise.setPassword(passwordEncoder.encode(enterprise.getPassword()));
 		return repository.save(enterprise);
 	}
 
@@ -104,6 +112,7 @@ public class EnterpriseService {
 	public Driver addDriverToEnterprise(Long enterpriseId, Driver driver) {
 		Enterprise enterprise = findById(enterpriseId);
 		driver.setEnterprise(enterprise);
+		driver.setPassword(passwordEncoder.encode(driver.getPassword()));
 		return driverRepository.save(driver);
 	}
 
@@ -113,10 +122,14 @@ public class EnterpriseService {
 		return vehicleRepository.save(vehicle);
 	}
 
-	// Ainda não implementado o PasswordEncoder
-	public boolean isValidDriver(String email, String password) {
-		Optional<Enterprise> enterpriseOptional = repository.findByEmailAndPassword(email, password);
-		return enterpriseOptional.isPresent();
+	public boolean isValidEnterprise(String email, String password) {
+	    Optional<Enterprise> enterpriseOptional = repository.findByEmail(email);
+
+	    if (enterpriseOptional.isPresent()) {
+	        Enterprise enterprise = enterpriseOptional.get();
+	        return passwordEncoder.matches(password, enterprise.getPassword());
+	    }
+	    return false;
 	}
 
 }

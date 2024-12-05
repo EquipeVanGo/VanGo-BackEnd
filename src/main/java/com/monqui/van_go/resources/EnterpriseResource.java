@@ -96,8 +96,8 @@ public class EnterpriseResource {
 	}
 
 	@GetMapping("/validate")
-	public ResponseEntity<Boolean> isValidDriver(@RequestParam String email, @RequestParam String password) {
-		boolean isValid = service.isValidDriver(email, password);
+	public ResponseEntity<Boolean> isValidEnterprise(@RequestParam String email, @RequestParam String password) {
+		boolean isValid = service.isValidEnterprise(email, password);
 		return ResponseEntity.ok(isValid);
 	}
 

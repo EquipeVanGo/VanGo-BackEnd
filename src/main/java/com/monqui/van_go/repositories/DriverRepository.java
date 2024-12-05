@@ -12,11 +12,8 @@ public interface DriverRepository extends JpaRepository<Driver, Long>{
     List<Driver> findByEnterpriseId(Long enterpriseId);
     
     List<Driver> findByActiveTrue();
-    
-    
-    // Validação temporária
-    
-    Optional<Driver> findByEmailAndPassword(String email, String password);
+        
+    Optional<Driver> findByEmail(String email);
     
 
 }

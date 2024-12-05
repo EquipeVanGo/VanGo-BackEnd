@@ -10,9 +10,7 @@ import com.monqui.van_go.entities.Passenger;
 public interface PassengerRepository extends JpaRepository<Passenger, Long>{
 
     List<Passenger> findByActiveTrue();
-    
-// Validação temporária
-    
-    Optional<Passenger> findByEmailAndPassword(String email, String password);
+        
+    Optional<Passenger> findByEmail(String email);
 
 }

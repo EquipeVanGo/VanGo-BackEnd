@@ -11,9 +11,6 @@ public interface EnterpriseRepository extends JpaRepository<Enterprise, Long> {
 
 	List<Enterprise> findByActiveTrue();
 	
-	
-// Validação temporária
-    
-    Optional<Enterprise> findByEmailAndPassword(String email, String password);
+    Optional<Enterprise> findByEmail(String email);
 
 }
