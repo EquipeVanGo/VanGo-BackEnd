@@ -10,11 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TripRequestDTO {
-
+public class TripRequestAddressSearchDTO {
     private Long idPassenger;
-    private String departureLocation;
-    private String arrivalLocation;
-    private TripTypes tripTypes;
-
+    private String partialAddress; // O endereço parcial que o usuário está digitando
+    private TripTypes tripType;
 }

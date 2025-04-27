@@ -1,7 +1,7 @@
-package com.monqui.van_go.entity;
+package com.monqui.van_go.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.monqui.van_go.entity.location.Address;
+import com.monqui.van_go.entities.location.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +36,7 @@ public class Trips {
     private String departureLocation;
     private String arrivalTime;
     private String arrivalLocation;
+    private String pngRoute;
 
     @ManyToMany
     @JoinTable(
