@@ -1,5 +1,6 @@
 package com.monqui.van_go.services;
 
+import com.monqui.van_go.dto.Trip.TripRequestCreateDTO;
 import com.monqui.van_go.dto.Trip.TripRequestDTO;
 import com.monqui.van_go.dto.Trip.TripResponseAddressDTO;
 import com.monqui.van_go.dto.Trip.TripResponseGenericDTO;
@@ -14,6 +15,7 @@ import com.monqui.van_go.repositories.TripsRepository;
 import com.monqui.van_go.services.interfaces.TripInterface;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +41,21 @@ public class TripService implements TripInterface {
                         .complement(address.getComplement())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public Trips insert(TripRequestCreateDTO tripRequestCreateDTO) {
+        Trips trips = new Trips(tripRequestCreateDTO.getTripId(),
+                tripRequestCreateDTO.getEnterpriseId(),
+                tripRequestCreateDTO.getDriver(),
+                tripRequestCreateDTO.getVehicle(),
+                tripRequestCreateDTO.getDepartureTime(),
+                tripRequestCreateDTO.getDepartureLocation(),
+                tripRequestCreateDTO.getArrivalTime(),
+                tripRequestCreateDTO.getArrivalLocation(),
+                tripRequestCreateDTO.getPngRoute(),
+                new ArrayList<>(),
+                new ArrayList<>());
+        return tripsRepository.save(trips);
     }
 
     @Override
@@ -89,4 +106,6 @@ public class TripService implements TripInterface {
                         .build())
                 .collect(Collectors.toList());
     }
+
+
 }

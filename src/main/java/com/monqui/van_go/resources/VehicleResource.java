@@ -29,7 +29,6 @@ public class VehicleResource {
 	public ResponseEntity<List<Vehicle>> findAll() {
 		
 		List<Vehicle> list = service.findAll();
-		
 		return ResponseEntity.ok().body(list);
 	}
 	
@@ -59,7 +58,4 @@ public class VehicleResource {
 		return ResponseEntity.ok().body(vehicle);
 		
 	}
-	
-	
-	
 }

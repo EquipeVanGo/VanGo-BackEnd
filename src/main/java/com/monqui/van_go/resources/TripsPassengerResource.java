@@ -1,8 +1,10 @@
 package com.monqui.van_go.resources;
 
+import com.monqui.van_go.dto.Trip.TripRequestCreateDTO;
 import com.monqui.van_go.dto.Trip.TripRequestDTO;
 import com.monqui.van_go.dto.Trip.TripResponseAddressDTO;
 import com.monqui.van_go.dto.Trip.TripResponseGenericDTO;
+import com.monqui.van_go.entities.Trips;
 import com.monqui.van_go.services.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +45,11 @@ public class TripsPassengerResource {
 
         List<TripResponseGenericDTO> response = tripService.findTrips(requestDTO);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<Trips> tripCreate(@RequestBody TripRequestCreateDTO tripRequestDTO) {
+        Trips trips = tripService.insert(tripRequestDTO);
+        return ResponseEntity.ok(trips);
     }
 }

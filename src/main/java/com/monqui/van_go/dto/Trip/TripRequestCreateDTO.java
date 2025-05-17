@@ -21,4 +21,5 @@ public class TripRequestCreateDTO {
     private String departureTime;
     private String arrivalLocation;
     private String arrivalTime;
+    private String pngRoute;
 }

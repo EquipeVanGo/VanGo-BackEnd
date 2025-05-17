@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface TripsRepository extends JpaRepository<Trips, Long> {
 
-    @Query("SELECT t FROM Trips t JOIN t.addresses a WHERE a.label = :departure OR a.label = :destination")
+    @Query("SELECT t FROM Trips t JOIN t.addresses a WHERE a.address = :departure OR a.city = :destination")
     List<Trips> findTripsByDepartureOrDestination(@Param("departure") String departure,
                                                   @Param("destination") String destination);
 }
