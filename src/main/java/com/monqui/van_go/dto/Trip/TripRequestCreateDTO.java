@@ -12,8 +12,10 @@ public class TripRequestCreateDTO {
 	private Vehicle vehicle;
 	private String departureLocation;
 	private String departureTime;
+	private String departureLabel;
 	private String arrivalLocation;
 	private String arrivalTime;
+	private String ArrivalLabel;
 	private String pngRoute;
 	
 	
@@ -83,6 +85,14 @@ public class TripRequestCreateDTO {
 		this.departureTime = departureTime;
 	}
 
+	public String getDepartureLabel() {
+		return departureLabel;
+	}
+
+	public void setDepartureLabel(String departureLabel) {
+		this.departureLabel = departureLabel;
+	}
+
 	public String getArrivalLocation() {
 		return arrivalLocation;
 	}
@@ -97,6 +107,14 @@ public class TripRequestCreateDTO {
 
 	public void setArrivalTime(String arrivalTime) {
 		this.arrivalTime = arrivalTime;
+	}
+
+	public String getArrivalLabel() {
+		return ArrivalLabel;
+	}
+
+	public void setArrivalLabel(String arrivalLabel) {
+		this.ArrivalLabel = arrivalLabel;
 	}
 
 	public String getPngRoute() {

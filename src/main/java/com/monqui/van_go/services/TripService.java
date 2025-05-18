@@ -49,7 +49,8 @@ public class TripService implements TripInterface {
 		Trips trips = new Trips(tripRequestCreateDTO.getTripId(), tripRequestCreateDTO.getEnterpriseId(),
 				tripRequestCreateDTO.getDriver(), tripRequestCreateDTO.getVehicle(),
 				tripRequestCreateDTO.getDepartureTime(), tripRequestCreateDTO.getDepartureLocation(),
-				tripRequestCreateDTO.getArrivalTime(), tripRequestCreateDTO.getArrivalLocation(),
+				tripRequestCreateDTO.getDepartureLabel(),tripRequestCreateDTO.getArrivalTime(),
+				tripRequestCreateDTO.getArrivalLocation(),tripRequestCreateDTO.getArrivalLabel(),
 				tripRequestCreateDTO.getPngRoute(), new ArrayList<>(), new ArrayList<>());
 		return tripsRepository.save(trips);
 	}
@@ -65,15 +66,15 @@ public class TripService implements TripInterface {
 			dto.setEnterpriseId(trip.getEnterpriseId() != null ? trip.getEnterpriseId().getId() : null);
 			dto.setPngRoute(trip.getPngRoute());
 
-			DriverRequestDTO driverDto = new DriverRequestDTO(trip.getDriver().getId(), trip.getDriver().getName(),
-					trip.getDriver().getCnh(), trip.getDriver().getEmail());
+			DriverRequestDTO driverDto = new DriverRequestDTO(trip.getDriverId().getId(), trip.getDriverId().getName(),
+					trip.getDriverId().getCnh(), trip.getDriverId().getEmail());
 			dto.setDriver(driverDto);
 
-			VehicleRequestDTO vehicleDto = new VehicleRequestDTO(trip.getVehicle().getId(),
-					trip.getVehicle().getModel(), trip.getVehicle().getPlate(), trip.getVehicle().getQuantityPlaces());
+			VehicleRequestDTO vehicleDto = new VehicleRequestDTO(trip.getVehicleId().getId(),
+					trip.getVehicleId().getModel(), trip.getVehicleId().getPlate(), trip.getVehicleId().getQuantityPlaces());
 			dto.setVehicle(vehicleDto);
 
-			dto.setAvailableSeats(trip.getVehicle().getQuantityPlaces());
+			dto.setAvailableSeats(trip.getVehicleId().getQuantityPlaces());
 			dto.setDestination(trip.getArrivalLocation());
 			dto.setDepartureTime(trip.getDepartureTime());
 			dto.setDepartureLocation(trip.getDepartureLocation());

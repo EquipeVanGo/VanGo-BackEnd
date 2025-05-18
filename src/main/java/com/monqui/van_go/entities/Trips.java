@@ -20,17 +20,21 @@ public class Trips {
     private Enterprise enterpriseId;
 
     @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
     @JsonManagedReference
-    private Driver driver;
+    private Driver driverId;
 
     @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
     @JsonManagedReference
-    private Vehicle vehicle;
+    private Vehicle vehicleId;
 
     private String departureTime;
     private String departureLocation;
+    private String departureLabel;
     private String arrivalTime;
     private String arrivalLocation;
+    private String arrivalLabel;
     private String pngRoute;
 
     @ManyToMany
@@ -57,16 +61,18 @@ public class Trips {
 
   
     public Trips(Long tripId, Enterprise enterpriseId, Driver driver, Vehicle vehicle,
-                 String departureTime, String departureLocation, String arrivalTime,
-                 String arrivalLocation, String pngRoute, List<Passenger> passengers, List<Address> addresses) {
+                 String departureTime, String departureLocation,String departureLabel, String arrivalTime,
+                 String arrivalLocation, String arrivalLabel, String pngRoute, List<Passenger> passengers, List<Address> addresses) {
         this.tripId = tripId;
         this.enterpriseId = enterpriseId;
-        this.driver = driver;
-        this.vehicle = vehicle;
+        this.driverId = driver;
+        this.vehicleId = vehicle;
         this.departureTime = departureTime;
         this.departureLocation = departureLocation;
+        this.departureLabel = departureLabel;
         this.arrivalTime = arrivalTime;
         this.arrivalLocation = arrivalLocation;
+        this.arrivalLabel = arrivalLabel;
         this.pngRoute = pngRoute;
         this.passengers = passengers;
         this.addresses = addresses;
@@ -89,20 +95,20 @@ public class Trips {
         this.enterpriseId = enterpriseId;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public Driver getDriverId() {
+        return driverId;
     }
 
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setDriverId(Driver driverId) {
+        this.driverId = driverId;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    public Vehicle getVehicleId() {
+        return vehicleId;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicleId(Vehicle vehicle) {
+        this.vehicleId = vehicle;
     }
 
     public String getDepartureTime() {
@@ -121,6 +127,14 @@ public class Trips {
         this.departureLocation = departureLocation;
     }
 
+    public String getDepartureLabel() {
+        return departureLabel;
+    }
+
+    public void setDepartureLabel(String departureLabel) {
+        this.departureLabel = departureLabel;
+    }
+
     public String getArrivalTime() {
         return arrivalTime;
     }
@@ -137,6 +151,12 @@ public class Trips {
         this.arrivalLocation = arrivalLocation;
     }
 
+    public String getArrivalLabel() {
+        return arrivalLabel;
+    }
+    public void setArrivalLabel(String arrivalLabel) {
+        this.arrivalLabel = arrivalLabel;
+    }
     public String getPngRoute() {
         return pngRoute;
     }

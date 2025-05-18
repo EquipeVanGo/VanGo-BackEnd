@@ -2,6 +2,7 @@ package com.monqui.van_go.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,8 +70,11 @@ public class PassengerResource {
 		return ResponseEntity.ok().body(passenger);
 	}
 
-	@GetMapping("/validate")
-	public ResponseEntity<Long> isValidPassenger(@RequestParam String email, @RequestParam String password) {
+	@PostMapping("/validate")
+	public ResponseEntity<Long> isValidPassenger(@RequestBody Map<String, String> loginData) {
+		String email = loginData.get("email");
+		String password = loginData.get("password");
+
 		Long passengerId = service.isValidPassenger(email, password);
 
 		if (passengerId != null) {
