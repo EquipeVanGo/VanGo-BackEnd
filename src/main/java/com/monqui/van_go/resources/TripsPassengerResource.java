@@ -1,9 +1,6 @@
 package com.monqui.van_go.resources;
 
-import com.monqui.van_go.dto.Trip.TripRequestCreateDTO;
-import com.monqui.van_go.dto.Trip.TripRequestDTO;
-import com.monqui.van_go.dto.Trip.TripResponseAddressDTO;
-import com.monqui.van_go.dto.Trip.TripResponseGenericDTO;
+import com.monqui.van_go.dto.Trip.*;
 import com.monqui.van_go.entities.Trips;
 import com.monqui.van_go.entities.location.Address;
 import com.monqui.van_go.services.TripService;
@@ -21,12 +18,12 @@ public class TripsPassengerResource {
 	private TripService tripService;
 
 	@GetMapping(value = "/addresses")
-	public ResponseEntity<List<Address>> searchAddresses(@RequestParam("id") Long idPassenger,
+	public ResponseEntity<List<TripResponseFindAddressesDTO>> searchAddresses(@RequestParam("id") Long idPassenger,
 			@RequestParam("destination") String partialAddress, @RequestParam("one-way-trip") boolean oneWayTrip) {
 
 		TripRequestDTO requestDTO = new TripRequestDTO(idPassenger, partialAddress, partialAddress, oneWayTrip);
 
-		List<Address> response = tripService.findAddresses(requestDTO);
+		List<TripResponseFindAddressesDTO> response = tripService.findAddresses(requestDTO);
 		return ResponseEntity.ok(response);
 	}
 

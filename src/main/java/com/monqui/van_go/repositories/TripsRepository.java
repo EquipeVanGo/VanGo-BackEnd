@@ -23,7 +23,7 @@ public interface TripsRepository extends JpaRepository<Trips, Long> {
             "LOWER(t.departureLocation) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
             "LOWER(t.arrivalLabel) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
             "LOWER(t.departureLabel) LIKE LOWER(CONCAT('%', :text, '%'))")
-    List<Address> searchTripsByText(@Param("text") String text);
+    List<Trips> searchTripsByText(@Param("text") String text);
 
 
 

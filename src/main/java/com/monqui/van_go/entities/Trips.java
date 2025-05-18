@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.monqui.van_go.entities.location.Address;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -29,10 +31,10 @@ public class Trips {
     @JsonManagedReference
     private Vehicle vehicleId;
 
-    private String departureTime;
+    private LocalDateTime departureTime;
     private String departureLocation;
     private String departureLabel;
-    private String arrivalTime;
+    private LocalDateTime arrivalTime;
     private String arrivalLocation;
     private String arrivalLabel;
     private String pngRoute;
@@ -61,7 +63,7 @@ public class Trips {
 
   
     public Trips(Long tripId, Enterprise enterpriseId, Driver driver, Vehicle vehicle,
-                 String departureTime, String departureLocation,String departureLabel, String arrivalTime,
+                 LocalDateTime departureTime, String departureLocation,String departureLabel, LocalDateTime arrivalTime,
                  String arrivalLocation, String arrivalLabel, String pngRoute, List<Passenger> passengers, List<Address> addresses) {
         this.tripId = tripId;
         this.enterpriseId = enterpriseId;
@@ -111,11 +113,11 @@ public class Trips {
         this.vehicleId = vehicle;
     }
 
-    public String getDepartureTime() {
+    public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(String departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
@@ -135,11 +137,11 @@ public class Trips {
         this.departureLabel = departureLabel;
     }
 
-    public String getArrivalTime() {
+    public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(String arrivalTime) {
+    public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 

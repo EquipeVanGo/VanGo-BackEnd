@@ -1,21 +1,17 @@
 package com.monqui.van_go.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+import com.monqui.van_go.dto.Trip.*;
 import com.monqui.van_go.entities.Passenger;
 import com.monqui.van_go.repositories.PassengerRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.monqui.van_go.dto.Trip.TripRequestCreateDTO;
-import com.monqui.van_go.dto.Trip.TripRequestDTO;
-import com.monqui.van_go.dto.Trip.TripResponseAddressDTO;
-import com.monqui.van_go.dto.Trip.TripResponseGenericDTO;
 import com.monqui.van_go.dto.address.AddressRequestDTO;
 import com.monqui.van_go.dto.driver.DriverRequestDTO;
 import com.monqui.van_go.dto.passenger.PassengerRequestCreateDTO;
@@ -40,25 +36,43 @@ public class TripService implements TripInterface {
 	}
 
 	@Override
-	public List<Address> findAddresses(TripRequestDTO tripRequestDTO) {
+	public List<TripResponseFindAddressesDTO> findAddresses(TripRequestDTO tripRequestDTO) {
 		Optional<Passenger> passenger = passengerRepository.findById(tripRequestDTO.getIdPassenger());
-		Long addresId = passenger.get().getAddress().getId();
-		Optional<Address> userAddress = addressRepository.findById(addresId);
-		Pageable limit = PageRequest.of(0, 10);
+		List<Trips> tripsList = new ArrayList<>();
 
-		List<Address> tripsAddresses = tripsRepository.searchTripsByText(tripRequestDTO.getDepartureLocation());
-		for (Address address : tripsAddresses) {
-			System.out.println(address);
-		}
-		List<Address> addressList = new ArrayList<>();
 		if (tripRequestDTO.getDepartureLocation().isBlank()) {
-			userAddress.ifPresent(addressList::add);
+			passenger.ifPresent(p -> {
+				Address userAddress = p.getAddress();
+
+				Trips mockTrip = new Trips();
+				mockTrip.setDepartureLocation(
+						userAddress.getAddress() + ", " +
+								userAddress.getNumber() + " - " +
+								userAddress.getNeighborhood() + ", " +
+								userAddress.getCity() + " - " +
+								userAddress.getState()
+				);
+				mockTrip.setArrivalLocation("Casa");
+				mockTrip.setDepartureTime(LocalDateTime.now());
+				mockTrip.setArrivalTime(LocalDateTime.now().plusMinutes(10));
+				mockTrip.setDepartureLabel("Casa");
+
+				tripsList.add(mockTrip);
+
+			});
+		} else {
+			List<Trips> bySearch = tripsRepository.searchTripsByText(tripRequestDTO.getDepartureLocation());
+			tripsList.addAll(bySearch);
 		}
-		addressList.addAll(tripsAddresses);
 
-		return addressList;
-
+		return tripsList.stream()
+				.map(TripResponseFindAddressesDTO::new)
+				.collect(Collectors.toList());
 	}
+
+
+
+
 
 	public Trips insert(TripRequestCreateDTO tripRequestCreateDTO) {
 		Trips trips = new Trips(tripRequestCreateDTO.getTripId(), tripRequestCreateDTO.getEnterpriseId(),

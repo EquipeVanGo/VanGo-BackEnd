@@ -4,6 +4,9 @@ import com.monqui.van_go.entities.Driver;
 import com.monqui.van_go.entities.Enterprise;
 import com.monqui.van_go.entities.Vehicle;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class TripRequestCreateDTO {
 
 	private Long tripId;
@@ -11,10 +14,10 @@ public class TripRequestCreateDTO {
 	private Driver driver;
 	private Vehicle vehicle;
 	private String departureLocation;
-	private String departureTime;
+	private LocalDateTime departureTime;
 	private String departureLabel;
 	private String arrivalLocation;
-	private String arrivalTime;
+	private LocalDateTime arrivalTime;
 	private String ArrivalLabel;
 	private String pngRoute;
 	
@@ -24,7 +27,7 @@ public class TripRequestCreateDTO {
 	}
 
 	public TripRequestCreateDTO(Long tripId, Enterprise enterpriseId, Driver driver, Vehicle vehicle,
-			String departureLocation, String departureTime, String arrivalLocation, String arrivalTime,
+			String departureLocation, LocalDateTime departureTime, String arrivalLocation, LocalDateTime arrivalTime,
 			String pngRoute) {
 		this.tripId = tripId;
 		this.enterpriseId = enterpriseId;
@@ -77,11 +80,11 @@ public class TripRequestCreateDTO {
 		this.departureLocation = departureLocation;
 	}
 
-	public String getDepartureTime() {
+	public LocalDateTime getDepartureTime() {
 		return departureTime;
 	}
 
-	public void setDepartureTime(String departureTime) {
+	public void setDepartureTime(LocalDateTime departureTime) {
 		this.departureTime = departureTime;
 	}
 
@@ -101,11 +104,11 @@ public class TripRequestCreateDTO {
 		this.arrivalLocation = arrivalLocation;
 	}
 
-	public String getArrivalTime() {
+	public LocalDateTime getArrivalTime() {
 		return arrivalTime;
 	}
 
-	public void setArrivalTime(String arrivalTime) {
+	public void setArrivalTime(LocalDateTime arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 

@@ -1,5 +1,6 @@
 package com.monqui.van_go.dto.Trip;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.monqui.van_go.dto.address.AddressRequestDTO;
@@ -15,10 +16,10 @@ public class TripResponseGenericDTO {
 	private VehicleRequestDTO vehicle;
 	private Integer availableSeats;
 	private String destination;
-	private String departureTime;
+	private LocalDateTime departureTime;
 	private String departureLocation;
 	private String arrivalLocation;
-	private String estimatedArrivalTime;
+	private LocalDateTime estimatedArrivalTime;
 	private String departureLabel;
 	private String arrivalLabel;
 	private List<PassengerRequestCreateDTO> passengers;
@@ -28,8 +29,8 @@ public class TripResponseGenericDTO {
 	}
 
 	public TripResponseGenericDTO(Long tripId, Long enterpriseId, String pngRoute, DriverRequestDTO driver,
-			VehicleRequestDTO vehicle, Integer availableSeats, String destination, String departureTime,
-			String departureLocation, String arrivalLocation, String estimatedArrivalTime, String departureLabel,
+			VehicleRequestDTO vehicle, Integer availableSeats, String destination, LocalDateTime departureTime,
+			String departureLocation, String arrivalLocation, LocalDateTime estimatedArrivalTime, String departureLabel,
 			String arrivalLabel, List<PassengerRequestCreateDTO> passengers, List<AddressRequestDTO> addresses) {
 		this.tripId = tripId;
 		this.enterpriseId = enterpriseId;
@@ -104,11 +105,11 @@ public class TripResponseGenericDTO {
 		this.destination = destination;
 	}
 
-	public String getDepartureTime() {
+	public LocalDateTime getDepartureTime() {
 		return departureTime;
 	}
 
-	public void setDepartureTime(String departureTime) {
+	public void setDepartureTime(LocalDateTime departureTime) {
 		this.departureTime = departureTime;
 	}
 
@@ -128,11 +129,11 @@ public class TripResponseGenericDTO {
 		this.arrivalLocation = arrivalLocation;
 	}
 
-	public String getEstimatedArrivalTime() {
+	public LocalDateTime getEstimatedArrivalTime() {
 		return estimatedArrivalTime;
 	}
 
-	public void setEstimatedArrivalTime(String estimatedArrivalTime) {
+	public void setEstimatedArrivalTime(LocalDateTime estimatedArrivalTime) {
 		this.estimatedArrivalTime = estimatedArrivalTime;
 	}
 
