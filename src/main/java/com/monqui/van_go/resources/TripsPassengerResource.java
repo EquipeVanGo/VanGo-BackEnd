@@ -16,40 +16,32 @@ import java.util.List;
 @RequestMapping(value = "/v1/passengers/trips")
 public class TripsPassengerResource {
 
-    @Autowired
-    private TripService tripService;
+	@Autowired
+	private TripService tripService;
 
-    @GetMapping(value = "/addresses")
-    public ResponseEntity<List<TripResponseAddressDTO>> searchAddresses(
-            @RequestParam Long idPassenger,
-            @RequestParam String partialAddress,
-            @RequestParam("one-way-trip") boolean oneWayTrip
-    ) {
-        TripRequestDTO requestDTO = TripRequestDTO.builder()
-                .arrivalLocation(partialAddress)
-                .build();
+	@GetMapping(value = "/addresses")
+	public ResponseEntity<List<TripResponseAddressDTO>> searchAddresses(@RequestParam Long idPassenger,
+			@RequestParam String partialAddress, @RequestParam("one-way-trip") boolean oneWayTrip) {
+		TripRequestDTO requestDTO = new TripRequestDTO(null, null, partialAddress, null);
 
-        List<TripResponseAddressDTO> response = tripService.findAddresses(requestDTO);
-        return ResponseEntity.ok(response);
-    }
 
-    @GetMapping(value = "/search-trips")
-    public ResponseEntity<List<TripResponseGenericDTO>> searchTrips(
-            @RequestParam String departureLocation,
-            @RequestParam String arrivalLocation
-    ) {
-        TripRequestDTO requestDTO = TripRequestDTO.builder()
-                .departureLocation(departureLocation)
-                .arrivalLocation(arrivalLocation)
-                .build();
+		List<TripResponseAddressDTO> response = tripService.findAddresses(requestDTO);
+		return ResponseEntity.ok(response);
+	}
 
-        List<TripResponseGenericDTO> response = tripService.findTrips(requestDTO);
-        return ResponseEntity.ok(response);
-    }
+	@GetMapping(value = "/search-trips")
+	public ResponseEntity<List<TripResponseGenericDTO>> searchTrips(@RequestParam String departureLocation,
+			@RequestParam String arrivalLocation) {
+		TripRequestDTO requestDTO = new TripRequestDTO(null, departureLocation, arrivalLocation, null);
 
-    @PostMapping
-    public ResponseEntity<Trips> tripCreate(@RequestBody TripRequestCreateDTO tripRequestDTO) {
-        Trips trips = tripService.insert(tripRequestDTO);
-        return ResponseEntity.ok(trips);
-    }
+
+		List<TripResponseGenericDTO> response = tripService.findTrips(requestDTO);
+		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping
+	public ResponseEntity<Trips> tripCreate(@RequestBody TripRequestCreateDTO tripRequestDTO) {
+		Trips trips = tripService.insert(tripRequestDTO);
+		return ResponseEntity.ok(trips);
+	}
 }
