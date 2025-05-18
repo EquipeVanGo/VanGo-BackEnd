@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,9 +70,14 @@ public class PassengerResource {
 	}
 
 	@GetMapping("/validate")
-	public ResponseEntity<Boolean> isValidPassenger(@RequestParam String email, @RequestParam String password) {
-		boolean isValid = service.isValidPassenger(email, password);
-		return ResponseEntity.ok(isValid);
+	public ResponseEntity<Long> isValidPassenger(@RequestParam String email, @RequestParam String password) {
+		Long passengerId = service.isValidPassenger(email, password);
+
+		if (passengerId != null) {
+			return ResponseEntity.ok(passengerId);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 	}
 
 }

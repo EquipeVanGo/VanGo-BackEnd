@@ -77,14 +77,16 @@ public class PassengerService {
 
 	}
 
-	public boolean isValidPassenger(String email, String password) {
+	public Long isValidPassenger(String email, String password) {
 	    Optional<Passenger> passengerOptional = repository.findByEmail(email);
 
 	    if (passengerOptional.isPresent()) {
 	        Passenger passenger = passengerOptional.get();
-	        return passwordEncoder.matches(password, passenger.getPassword());
+	        if (passwordEncoder.matches(password, passenger.getPassword())) {
+	            return passenger.getId();
+	        }
 	    }
-	    return false;
+	    return null;
 	}
 
 }
