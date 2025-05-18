@@ -7,14 +7,14 @@ public class TripRequestDTO {
 	private Long idPassenger;
 	private String departureLocation;
 	private String arrivalLocation;
-	private TripTypes tripTypes;
+	private boolean tripTypes;
 	
 	
 
 	public TripRequestDTO() {
 	}
 
-	public TripRequestDTO(Long idPassenger, String departureLocation, String arrivalLocation, TripTypes tripTypes) {
+	public TripRequestDTO(Long idPassenger, String departureLocation, String arrivalLocation, boolean tripTypes) {
 		this.idPassenger = idPassenger;
 		this.departureLocation = departureLocation;
 		this.arrivalLocation = arrivalLocation;
@@ -45,11 +45,11 @@ public class TripRequestDTO {
 		this.arrivalLocation = arrivalLocation;
 	}
 
-	public TripTypes getTripTypes() {
+	public boolean getTripTypes() {
 		return tripTypes;
 	}
 
-	public void setTripTypes(TripTypes tripTypes) {
+	public void setTripTypes(boolean tripTypes) {
 		this.tripTypes = tripTypes;
 	}
 

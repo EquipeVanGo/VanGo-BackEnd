@@ -2,8 +2,14 @@ package com.monqui.van_go.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+import com.monqui.van_go.entities.Passenger;
+import com.monqui.van_go.repositories.PassengerRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.monqui.van_go.dto.Trip.TripRequestCreateDTO;
@@ -25,24 +31,33 @@ public class TripService implements TripInterface {
 
 	private final AddressRepository addressRepository;
 	private final TripsRepository tripsRepository;
+	private final PassengerRepository passengerRepository;
 
-	public TripService(AddressRepository addressRepository, TripsRepository tripsRepository) {
+	public TripService(AddressRepository addressRepository, TripsRepository tripsRepository, PassengerRepository passengerRepository) {
 		this.addressRepository = addressRepository;
 		this.tripsRepository = tripsRepository;
+		this.passengerRepository = passengerRepository;
 	}
 
 	@Override
-	public List<TripResponseAddressDTO> findAddresses(TripRequestDTO tripRequestDTO) {
-		List<Address> addresses = addressRepository
-				.findByAddressContainingIgnoreCase(tripRequestDTO.getArrivalLocation());
+	public List<Address> findAddresses(TripRequestDTO tripRequestDTO) {
+		Optional<Passenger> passenger = passengerRepository.findById(tripRequestDTO.getIdPassenger());
+		Long addresId = passenger.get().getAddress().getId();
+		Optional<Address> userAddress = addressRepository.findById(addresId);
+		Pageable limit = PageRequest.of(0, 10);
 
-		return addresses.stream().map(address -> {
-			TripResponseAddressDTO dto = new TripResponseAddressDTO();
-			dto.setStreetAddress(address.getAddress());
-			dto.setNumber(address.getNumber());
-			dto.setComplement(address.getComplement());
-			return dto;
-		}).collect(Collectors.toList());
+		List<Address> tripsAddresses = tripsRepository.searchTripsByText(tripRequestDTO.getDepartureLocation());
+		for (Address address : tripsAddresses) {
+			System.out.println(address);
+		}
+		List<Address> addressList = new ArrayList<>();
+		if (tripRequestDTO.getDepartureLocation().isBlank()) {
+			userAddress.ifPresent(addressList::add);
+		}
+		addressList.addAll(tripsAddresses);
+
+		return addressList;
+
 	}
 
 	public Trips insert(TripRequestCreateDTO tripRequestCreateDTO) {

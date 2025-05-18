@@ -19,13 +19,13 @@ public class Trips {
     @JsonManagedReference
     private Enterprise enterpriseId;
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @ManyToOne()
+    @JoinColumn(name = "driver_id",referencedColumnName = "id", nullable = false)
     @JsonManagedReference
     private Driver driverId;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "vehicle_id",referencedColumnName = "id", nullable = false)
     @JsonManagedReference
     private Vehicle vehicleId;
 

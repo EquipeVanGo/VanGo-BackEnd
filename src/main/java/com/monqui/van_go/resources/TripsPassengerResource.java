@@ -5,6 +5,7 @@ import com.monqui.van_go.dto.Trip.TripRequestDTO;
 import com.monqui.van_go.dto.Trip.TripResponseAddressDTO;
 import com.monqui.van_go.dto.Trip.TripResponseGenericDTO;
 import com.monqui.van_go.entities.Trips;
+import com.monqui.van_go.entities.location.Address;
 import com.monqui.van_go.services.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +21,19 @@ public class TripsPassengerResource {
 	private TripService tripService;
 
 	@GetMapping(value = "/addresses")
-	public ResponseEntity<List<TripResponseAddressDTO>> searchAddresses(@RequestParam Long idPassenger,
-			@RequestParam String partialAddress, @RequestParam("one-way-trip") boolean oneWayTrip) {
-		TripRequestDTO requestDTO = new TripRequestDTO(null, null, partialAddress, null);
+	public ResponseEntity<List<Address>> searchAddresses(@RequestParam("id") Long idPassenger,
+			@RequestParam("destination") String partialAddress, @RequestParam("one-way-trip") boolean oneWayTrip) {
 
+		TripRequestDTO requestDTO = new TripRequestDTO(idPassenger, partialAddress, partialAddress, oneWayTrip);
 
-		List<TripResponseAddressDTO> response = tripService.findAddresses(requestDTO);
+		List<Address> response = tripService.findAddresses(requestDTO);
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping(value = "/search-trips")
 	public ResponseEntity<List<TripResponseGenericDTO>> searchTrips(@RequestParam String departureLocation,
-			@RequestParam String arrivalLocation) {
-		TripRequestDTO requestDTO = new TripRequestDTO(null, departureLocation, arrivalLocation, null);
+			@RequestParam String arrivalLocation,@RequestParam("one-way-trip") boolean oneWayTrip) {
+		TripRequestDTO requestDTO = new TripRequestDTO(null, departureLocation, arrivalLocation, oneWayTrip);
 
 
 		List<TripResponseGenericDTO> response = tripService.findTrips(requestDTO);
