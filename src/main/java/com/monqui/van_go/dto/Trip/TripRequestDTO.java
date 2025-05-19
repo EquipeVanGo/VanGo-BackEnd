@@ -1,7 +1,5 @@
 package com.monqui.van_go.dto.Trip;
 
-import com.monqui.van_go.entities.enums.TripTypes;
-
 public class TripRequestDTO {
 
 	private Long idPassenger;

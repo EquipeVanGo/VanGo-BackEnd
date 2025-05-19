@@ -125,4 +125,24 @@ public class TripService implements TripInterface {
 			return dto;
 		}).collect(Collectors.toList());
 	}
+
+	public List<TripRequestCreateDTO> getTripsByDriverId(Long driverId) {
+		List<Trips> trips = tripsRepository.findByDriverId_Id(driverId);
+
+		return trips.stream().map(trip -> {
+			TripRequestCreateDTO dto = new TripRequestCreateDTO();
+			dto.setTripId(trip.getTripId());
+			dto.setEnterpriseId(trip.getEnterpriseId());
+			dto.setDriver(trip.getDriverId());
+			dto.setVehicle(trip.getVehicleId());
+			dto.setDepartureLocation(trip.getDepartureLocation());
+			dto.setDepartureTime(trip.getDepartureTime());
+			dto.setDepartureLabel(trip.getDepartureLabel());
+			dto.setArrivalLocation(trip.getArrivalLocation());
+			dto.setArrivalTime(trip.getArrivalTime());
+			dto.setArrivalLabel(trip.getArrivalLabel());
+			dto.setPngRoute(trip.getPngRoute());
+			return dto;
+		}).collect(Collectors.toList());
+	}
 }

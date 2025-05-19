@@ -2,7 +2,6 @@ package com.monqui.van_go.resources;
 
 import com.monqui.van_go.dto.Trip.*;
 import com.monqui.van_go.entities.Trips;
-import com.monqui.van_go.entities.location.Address;
 import com.monqui.van_go.services.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +39,12 @@ public class TripsPassengerResource {
 	@PostMapping
 	public ResponseEntity<Trips> tripCreate(@RequestBody TripRequestCreateDTO tripRequestDTO) {
 		Trips trips = tripService.insert(tripRequestDTO);
+		return ResponseEntity.ok(trips);
+	}
+
+	@GetMapping("/driver/{driverId}")
+	public ResponseEntity<List<TripRequestCreateDTO>> getTripsByDriver(@PathVariable Long driverId) {
+		List<TripRequestCreateDTO> trips = tripService.getTripsByDriverId(driverId);
 		return ResponseEntity.ok(trips);
 	}
 }
