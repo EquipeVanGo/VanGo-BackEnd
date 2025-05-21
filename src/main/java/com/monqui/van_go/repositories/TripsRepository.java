@@ -21,12 +21,15 @@ public interface TripsRepository extends JpaRepository<Trips, Long> {
     List<Trips> findTripsByDepartureOrDestination(@Param("departure") String departure,
                                                   @Param("destination") String destination);
 
-    @Query("SELECT t FROM Trips t WHERE " +
-            "LOWER(t.arrivalLocation) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
-            "LOWER(t.departureLocation) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
-            "LOWER(t.arrivalLabel) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
-            "LOWER(t.departureLabel) LIKE LOWER(CONCAT('%', :text, '%'))")
-    List<Trips> searchTripsByText(@Param("text") String text);
+    @Query("SELECT DISTINCT t.departureLocation FROM Trips t WHERE LOWER(t.departureLocation) LIKE LOWER(CONCAT('%', :text, '%')) " +
+            "UNION " +
+            "SELECT DISTINCT t.arrivalLocation FROM Trips t WHERE LOWER(t.arrivalLocation) LIKE LOWER(CONCAT('%', :text, '%')) " +
+            "UNION " +
+            "SELECT DISTINCT t.departureLabel FROM Trips t WHERE LOWER(t.departureLabel) LIKE LOWER(CONCAT('%', :text, '%')) " +
+            "UNION " +
+            "SELECT DISTINCT t.arrivalLabel FROM Trips t WHERE LOWER(t.arrivalLabel) LIKE LOWER(CONCAT('%', :text, '%'))")
+    List<String> searchUniqueMatchingTexts(@Param("text") String text);
+
 
     @Query("SELECT t FROM Trips t LEFT JOIN FETCH t.tripPassengers WHERE t.tripId = :id")
     List<Trips> findByDriverId_Id(@Param("id") Long id);

@@ -1,18 +1,12 @@
 package com.monqui.van_go.resources;
 
 import java.util.List;
+import java.util.Map;
 
+import com.monqui.van_go.dto.LoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.monqui.van_go.entities.Driver;
 import com.monqui.van_go.services.DriverService;
@@ -80,9 +74,12 @@ public class DriverResource {
 		return ResponseEntity.ok().body(driver);
 	}
 
-	@GetMapping("/validate")
-	public ResponseEntity<Boolean> isValidDriver(@RequestParam String email, @RequestParam String password) {
-		boolean isValid = service.isValidDriver(email, password);
+	@PostMapping("/validate")
+	public ResponseEntity<Boolean> isValidDriver(@RequestBody Map<String, String> loginData) {
+		String email = loginData.get("email");
+		String password = loginData.get("password");
+
+		Boolean isValid = service.isValidDriver(email, password);
 		return ResponseEntity.ok(isValid);
 	}
 

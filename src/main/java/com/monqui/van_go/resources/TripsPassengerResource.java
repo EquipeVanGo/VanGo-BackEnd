@@ -47,9 +47,10 @@ public class TripsPassengerResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Trips> tripCreate(@RequestBody TripRequestCreateDTO tripRequestDTO) {
-		Trips trips = tripService.tripsCreate(tripRequestDTO);
-		return ResponseEntity.ok(trips);
+	public ResponseEntity<TripResponseCreatedDTO> tripCreate(@RequestBody TripRequestCreateDTO tripRequestDTO) {
+		Trips trip = tripService.tripsCreate(tripRequestDTO);
+		TripResponseCreatedDTO responseDTO = new TripResponseCreatedDTO(trip);
+		return ResponseEntity.ok(responseDTO);
 	}
 
 	@GetMapping("/driver/{driverId}")

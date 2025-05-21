@@ -61,11 +61,16 @@ public class TripService implements TripInterface {
 				mockTrip.setDepartureLabel("Casa");
 
 				tripsList.add(mockTrip);
-
 			});
 		} else {
-			List<Trips> bySearch = tripsRepository.searchTripsByText(tripRequestDTO.getDepartureLocation());
-			tripsList.addAll(bySearch);
+			List<String> matchedTexts = tripsRepository.searchUniqueMatchingTexts(tripRequestDTO.getDepartureLocation());
+
+			for (String text : matchedTexts) {
+				Trips mockTrip = new Trips();
+				mockTrip.setDepartureLocation(text);
+				mockTrip.setDepartureLabel(text);
+				tripsList.add(mockTrip);
+			}
 		}
 
 		return tripsList.stream()
