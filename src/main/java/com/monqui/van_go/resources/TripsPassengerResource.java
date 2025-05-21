@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/passengers/trips")
+@RequestMapping(value = "/v1/trips")
 public class TripsPassengerResource {
 
 	@Autowired
 	private TripService tripService;
 
-	@GetMapping(value = "/addresses")
+	@GetMapping(value = "/passenger/addresses")
 	public ResponseEntity<List<TripResponseFindAddressesDTO>> searchAddresses(@RequestParam("id") Long idPassenger,
 			@RequestParam("destination") String partialAddress, @RequestParam("one-way-trip") boolean oneWayTrip) {
 
@@ -27,7 +27,7 @@ public class TripsPassengerResource {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping(value = "/search-trips")
+	@GetMapping(value = "/passenger/search-trips")
 	public ResponseEntity<List<TripResponseGenericDTO>> searchTrips(@RequestParam("destination_to") String departureLocation,
 			@RequestParam("destination_from") String arrivalLocation,@RequestParam("one-way-trip") boolean oneWayTrip) {
 		TripRequestDTO requestDTO = new TripRequestDTO(null, departureLocation, arrivalLocation, oneWayTrip);
@@ -36,7 +36,7 @@ public class TripsPassengerResource {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/insert-passenger")
+	@PostMapping("/passenger/insert-passenger")
 	public ResponseEntity<Boolean> insertPassenger(@RequestBody PassengerRequestTripsDTO dto) {
 		Boolean result = tripService.insertPassengerOnTrip(dto);
 		if (result) {
@@ -53,8 +53,15 @@ public class TripsPassengerResource {
 	}
 
 	@GetMapping("/driver/{driverId}")
-	public ResponseEntity<List<TripRequestCreateDTO>> getTripsByDriver(@PathVariable Long driverId) {
-		List<TripRequestCreateDTO> trips = tripService.getTripsByDriverId(driverId);
+	public ResponseEntity<List<TripByDriverDTO>> getTripsByDriver(@PathVariable Long driverId) {
+		List<TripByDriverDTO> trips = tripService.getTripsByDriverId(driverId);
 		return ResponseEntity.ok(trips);
 	}
+
+	@GetMapping("/passenger/{passengerId}")
+	public ResponseEntity<List<TripByPassengerDTO>> getTripsByPassenger(@PathVariable Long passengerId) {
+		List<TripByPassengerDTO> trips = tripService.getTripsByPassengerId(passengerId);
+		return ResponseEntity.ok(trips);
+	}
+
 }

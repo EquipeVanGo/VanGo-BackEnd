@@ -28,15 +28,12 @@ public interface TripsRepository extends JpaRepository<Trips, Long> {
             "LOWER(t.departureLabel) LIKE LOWER(CONCAT('%', :text, '%'))")
     List<Trips> searchTripsByText(@Param("text") String text);
 
-    List<Trips> findByDriverId_Id(Long id);
+    @Query("SELECT t FROM Trips t LEFT JOIN FETCH t.tripPassengers WHERE t.tripId = :id")
+    List<Trips> findByDriverId_Id(@Param("id") Long id);
 
     @Query("SELECT t FROM Trips t WHERE t.tripId = :id")
     Optional<Trips> findByTripId(@Param("id") Long id);
 
-
-
-
-
-
-
+    @Query("SELECT DISTINCT t FROM Trips t JOIN FETCH t.tripPassengers tp WHERE tp.passenger.id = :passengerId")
+    List<Trips> findTripsByPassengerId(@Param("passengerId") Long passengerId);
 }

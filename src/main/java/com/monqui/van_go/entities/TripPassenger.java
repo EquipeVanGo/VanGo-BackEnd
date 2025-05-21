@@ -1,5 +1,6 @@
 package com.monqui.van_go.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class TripPassenger {
 
     @ManyToOne
     @JoinColumn(name = "trip_id")
+    @JsonBackReference
     private Trips trip;
 
     @ManyToOne

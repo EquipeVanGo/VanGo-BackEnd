@@ -41,16 +41,8 @@ public class Trips {
 
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TripPassenger> tripPassengers;
-
-    @ManyToMany
-    @JoinTable(
-            name = "trip_address",
-            joinColumns = @JoinColumn(name = "trip_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id")
-    )
     @JsonManagedReference
-    private List<Address> addresses;
+    private List<TripPassenger> tripPassengers;
 
  
     public Trips() {
@@ -59,7 +51,7 @@ public class Trips {
   
     public Trips(Long tripId, Enterprise enterpriseId, Driver driver, Vehicle vehicle,
                  LocalDateTime departureTime, String departureLocation,String departureLabel, LocalDateTime arrivalTime,
-                 String arrivalLocation, String arrivalLabel, String pngRoute, List<TripPassenger> passengers, List<Address> addresses) {
+                 String arrivalLocation, String arrivalLabel, String pngRoute, List<TripPassenger> tripPassengers) {
         this.tripId = tripId;
         this.enterpriseId = enterpriseId;
         this.driverId = driver;
@@ -71,8 +63,7 @@ public class Trips {
         this.arrivalLocation = arrivalLocation;
         this.arrivalLabel = arrivalLabel;
         this.pngRoute = pngRoute;
-        this.tripPassengers = passengers;
-        this.addresses = addresses;
+        this.tripPassengers = tripPassengers;
     }
 
 
@@ -168,13 +159,5 @@ public class Trips {
 
     public void setTripPassengers(List<TripPassenger> tripPassengers) {
         this.tripPassengers = tripPassengers;
-    }
-
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
     }
 }
