@@ -1,6 +1,7 @@
 package com.monqui.van_go.resources;
 
 import com.monqui.van_go.dto.Trip.*;
+import com.monqui.van_go.dto.passenger.PassengerRequestTripsDTO;
 import com.monqui.van_go.entities.Trips;
 import com.monqui.van_go.services.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +28,27 @@ public class TripsPassengerResource {
 	}
 
 	@GetMapping(value = "/search-trips")
-	public ResponseEntity<List<TripResponseGenericDTO>> searchTrips(@RequestParam String departureLocation,
-			@RequestParam String arrivalLocation,@RequestParam("one-way-trip") boolean oneWayTrip) {
+	public ResponseEntity<List<TripResponseGenericDTO>> searchTrips(@RequestParam("destination_to") String departureLocation,
+			@RequestParam("destination_from") String arrivalLocation,@RequestParam("one-way-trip") boolean oneWayTrip) {
 		TripRequestDTO requestDTO = new TripRequestDTO(null, departureLocation, arrivalLocation, oneWayTrip);
-
 
 		List<TripResponseGenericDTO> response = tripService.findTrips(requestDTO);
 		return ResponseEntity.ok(response);
 	}
 
+	@PostMapping("/insert-passenger")
+	public ResponseEntity<Boolean> insertPassenger(@RequestBody PassengerRequestTripsDTO dto) {
+		Boolean result = tripService.insertPassengerOnTrip(dto);
+		if (result) {
+			return ResponseEntity.ok(result);
+		} else {
+			return ResponseEntity.badRequest().body(false);
+		}
+	}
+
 	@PostMapping
 	public ResponseEntity<Trips> tripCreate(@RequestBody TripRequestCreateDTO tripRequestDTO) {
-		Trips trips = tripService.insert(tripRequestDTO);
+		Trips trips = tripService.tripsCreate(tripRequestDTO);
 		return ResponseEntity.ok(trips);
 	}
 

@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 
 
 import com.monqui.van_go.dto.Trip.*;
+import com.monqui.van_go.dto.passenger.PassengerRequestTripsDTO;
 import com.monqui.van_go.entities.Passenger;
+import com.monqui.van_go.entities.TripPassenger;
 import com.monqui.van_go.repositories.PassengerRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.monqui.van_go.dto.address.AddressRequestDTO;
@@ -71,10 +74,7 @@ public class TripService implements TripInterface {
 	}
 
 
-
-
-
-	public Trips insert(TripRequestCreateDTO tripRequestCreateDTO) {
+	public Trips tripsCreate(TripRequestCreateDTO tripRequestCreateDTO) {
 		Trips trips = new Trips(tripRequestCreateDTO.getTripId(), tripRequestCreateDTO.getEnterpriseId(),
 				tripRequestCreateDTO.getDriver(), tripRequestCreateDTO.getVehicle(),
 				tripRequestCreateDTO.getDepartureTime(), tripRequestCreateDTO.getDepartureLocation(),
@@ -85,6 +85,7 @@ public class TripService implements TripInterface {
 	}
 
 	@Override
+	@Transactional
 	public List<TripResponseGenericDTO> findTrips(TripRequestDTO tripRequestDTO) {
 		List<Trips> trips = tripsRepository.findTripsByDepartureOrDestination(tripRequestDTO.getDepartureLocation(),
 				tripRequestDTO.getArrivalLocation());
@@ -111,8 +112,8 @@ public class TripService implements TripInterface {
 			dto.setDepartureLabel("Departure");
 			dto.setArrivalLabel("Arrival");
 
-			List<PassengerRequestCreateDTO> passengerDTOs = trip.getPassengers().stream()
-					.map(passenger -> new PassengerRequestCreateDTO(passenger.getId(), passenger.getName()))
+			List<PassengerRequestCreateDTO> passengerDTOs = trip.getTripPassengers().stream()
+					.map(passenger -> new PassengerRequestCreateDTO(passenger.getId(), passenger.getPassenger().getName()))
 					.collect(Collectors.toList());
 			dto.setPassengers(passengerDTOs);
 
@@ -125,6 +126,33 @@ public class TripService implements TripInterface {
 			return dto;
 		}).collect(Collectors.toList());
 	}
+
+	@Transactional
+	public Boolean insertPassengerOnTrip(PassengerRequestTripsDTO dadosPassageiro) {
+		Optional<Trips> tripOptional = tripsRepository.findByTripId(dadosPassageiro.getTripId());
+		Optional<Passenger> passengerOptional = passengerRepository.findById(dadosPassageiro.getPassengerId());
+
+		if (tripOptional.isPresent() && passengerOptional.isPresent()) {
+			Trips trip = tripOptional.get();
+			Passenger passenger = passengerOptional.get();
+
+			if (trip.getTripPassengers() == null) {
+				trip.setTripPassengers(new ArrayList<>());
+			}
+
+			TripPassenger tripPassenger = new TripPassenger(trip, passenger,
+					dadosPassageiro.getDepartureLabel(),
+					dadosPassageiro.getArrivalLabel());
+
+			trip.getTripPassengers().add(tripPassenger);
+
+			tripsRepository.save(trip);
+			return true;
+		}
+		return false;
+	}
+
+
 
 	public List<TripRequestCreateDTO> getTripsByDriverId(Long driverId) {
 		List<Trips> trips = tripsRepository.findByDriverId_Id(driverId);
@@ -145,4 +173,5 @@ public class TripService implements TripInterface {
 			return dto;
 		}).collect(Collectors.toList());
 	}
+
 }

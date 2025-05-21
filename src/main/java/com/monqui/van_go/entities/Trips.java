@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.monqui.van_go.entities.location.Address;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,14 +39,9 @@ public class Trips {
     private String arrivalLabel;
     private String pngRoute;
 
-    @ManyToMany
-    @JoinTable(
-            name = "trip_passenger",
-            joinColumns = @JoinColumn(name = "trip_id"),
-            inverseJoinColumns = @JoinColumn(name = "passenger_id")
-    )
-    @JsonManagedReference
-    private List<Passenger> passengers;
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripPassenger> tripPassengers;
 
     @ManyToMany
     @JoinTable(
@@ -64,7 +59,7 @@ public class Trips {
   
     public Trips(Long tripId, Enterprise enterpriseId, Driver driver, Vehicle vehicle,
                  LocalDateTime departureTime, String departureLocation,String departureLabel, LocalDateTime arrivalTime,
-                 String arrivalLocation, String arrivalLabel, String pngRoute, List<Passenger> passengers, List<Address> addresses) {
+                 String arrivalLocation, String arrivalLabel, String pngRoute, List<TripPassenger> passengers, List<Address> addresses) {
         this.tripId = tripId;
         this.enterpriseId = enterpriseId;
         this.driverId = driver;
@@ -76,7 +71,7 @@ public class Trips {
         this.arrivalLocation = arrivalLocation;
         this.arrivalLabel = arrivalLabel;
         this.pngRoute = pngRoute;
-        this.passengers = passengers;
+        this.tripPassengers = passengers;
         this.addresses = addresses;
     }
 
@@ -167,12 +162,12 @@ public class Trips {
         this.pngRoute = pngRoute;
     }
 
-    public List<Passenger> getPassengers() {
-        return passengers;
+    public List<TripPassenger> getTripPassengers() {
+        return tripPassengers;
     }
 
-    public void setPassengers(List<Passenger> passengers) {
-        this.passengers = passengers;
+    public void setTripPassengers(List<TripPassenger> tripPassengers) {
+        this.tripPassengers = tripPassengers;
     }
 
     public List<Address> getAddresses() {

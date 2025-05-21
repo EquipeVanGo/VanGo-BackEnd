@@ -8,11 +8,16 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TripsRepository extends JpaRepository<Trips, Long> {
 
-    @Query("SELECT t FROM Trips t JOIN t.addresses a WHERE a.address = :departure OR a.city = :destination")
+    @Query("SELECT distinct t FROM Trips t WHERE " +
+            "LOWER(t.arrivalLocation) LIKE LOWER(CONCAT('%', :destination, '%')) OR " +
+            "LOWER(t.departureLocation) LIKE LOWER(CONCAT('%', :departure, '%')) OR " +
+            "LOWER(t.arrivalLabel) LIKE LOWER(CONCAT('%', :destination, '%')) OR " +
+            "LOWER(t.departureLabel) LIKE LOWER(CONCAT('%', :departure, '%'))")
     List<Trips> findTripsByDepartureOrDestination(@Param("departure") String departure,
                                                   @Param("destination") String destination);
 
@@ -24,6 +29,10 @@ public interface TripsRepository extends JpaRepository<Trips, Long> {
     List<Trips> searchTripsByText(@Param("text") String text);
 
     List<Trips> findByDriverId_Id(Long id);
+
+    @Query("SELECT t FROM Trips t WHERE t.tripId = :id")
+    Optional<Trips> findByTripId(@Param("id") Long id);
+
 
 
 

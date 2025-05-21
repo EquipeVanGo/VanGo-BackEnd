@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.monqui.van_go.entities.location.Address;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,11 +15,11 @@ import jakarta.persistence.OneToOne;
 @MappedSuperclass
 public abstract class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String age;
 	private String name;
 	private String email;
@@ -33,8 +32,16 @@ public abstract class User implements Serializable {
 
 	public User() {
 	}
-	
-	public User(Long id, String age, String name, String email, String password, String telephone, Address address) {
+
+	public User(Long id, java.lang.String name, Address address){
+		this.id = id;
+		this.name = name;
+		this.address = address;
+	}
+
+	public User(Long id, java.lang.String age, java.lang.String name,
+				java.lang.String email, java.lang.String password, java.lang.String telephone,
+				Address address) {
 		this.id = id;
 		this.age = age;
 		this.name = name;
@@ -43,7 +50,7 @@ public abstract class User implements Serializable {
 		this.telephone = telephone;
 		this.address = address;
 	}
-	
+
 	//Criar empresa sem idade
 	public User(Long id, String name, String email, String password, String telephone, Address address) {
 		this.id = id;

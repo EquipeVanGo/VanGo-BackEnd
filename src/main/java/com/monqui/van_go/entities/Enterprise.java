@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class Enterprise extends User {
 	private static final long serialVersionUID = 1L;
 
-	private String cnpj;
+	private java.lang.String cnpj;
 	private boolean active = true;
 
 	private final char typeEntity = 'E';
@@ -34,19 +34,19 @@ public class Enterprise extends User {
 	public Enterprise() {
 	}
 
-	public Enterprise(Long id, String name, String email, String password, String telephone, Address address,
-			String cnpj, List<Driver> drivers, List<Vehicle> vehicles) {
+	public Enterprise(Long id, java.lang.String name, java.lang.String email, java.lang.String password, java.lang.String telephone, Address address,
+                      java.lang.String cnpj, List<Driver> drivers, List<Vehicle> vehicles) {
 		super(id, name, email, password, telephone, address);
 		this.cnpj = cnpj;
 		this.drivers = (drivers != null) ? drivers : new ArrayList<>(); 
 		this.vehicles = (vehicles != null) ? vehicles : new ArrayList<>(); 
 	}
 
-	public String getCnpj() {
+	public java.lang.String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(String cnpj) {
+	public void setCnpj(java.lang.String cnpj) {
 		this.cnpj = cnpj;
 	}
 

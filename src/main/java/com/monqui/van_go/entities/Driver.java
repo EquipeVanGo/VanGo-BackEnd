@@ -20,8 +20,8 @@ import jakarta.persistence.TemporalType;
 public class Driver extends User {
 	private static final long serialVersionUID = 1L;
 	
-	private String cnh;
-	private String cnhCategory;
+	private java.lang.String cnh;
+	private java.lang.String cnhCategory;
 	private boolean active = true;
 
 	private final char typeEntity = 'D'; 
@@ -44,7 +44,7 @@ public class Driver extends User {
 	public Driver() {
 	}
 
-	public Driver(Long id, String age, String name, String email, String password, String telephone, Address address, String cnh, String cnhCategory, LocalDate validityCnh, Enterprise enterprise, Vehicle vehicle) {
+	public Driver(Long id, java.lang.String age, java.lang.String name, java.lang.String email, java.lang.String password, java.lang.String telephone, Address address, java.lang.String cnh, java.lang.String cnhCategory, LocalDate validityCnh, Enterprise enterprise, Vehicle vehicle) {
 		super(id ,age, name, email, password, telephone, address);
 		this.cnh = cnh;
 		this.cnhCategory = cnhCategory;
@@ -53,19 +53,19 @@ public class Driver extends User {
 		this.vehicle = vehicle;
 	}
 
-	public String getCnh() {
+	public java.lang.String getCnh() {
 		return cnh;
 	}
 
-	public void setCnh(String cnh) {
+	public void setCnh(java.lang.String cnh) {
 		this.cnh = cnh;
 	}
 
-	public String getCnhCategory() {
+	public java.lang.String getCnhCategory() {
 		return cnhCategory;
 	}
 
-	public void setCnhCategory(String cnhCategory) {
+	public void setCnhCategory(java.lang.String cnhCategory) {
 		this.cnhCategory = cnhCategory;
 	}
 

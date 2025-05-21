@@ -32,6 +32,10 @@ public class Passenger extends User {
 		this.timeline = timeline;
 	}
 
+	public Passenger(Long id, String name, Address address, String arrivalLAbel){
+		super(id,name,address);
+	}
+
 	public Timeline getTimeline() {
 		return timeline;
 	}
