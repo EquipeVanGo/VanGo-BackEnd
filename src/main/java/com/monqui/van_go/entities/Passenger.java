@@ -21,8 +21,6 @@ public class Passenger extends User {
 
 	private boolean active = true;
 
-	private final char typeEntity = 'P';
-
 	public Passenger() {
 	}
 
@@ -52,10 +50,6 @@ public class Passenger extends User {
 		this.active = active;
 	}
 
-	public char getTypeEntity() {
-		return typeEntity;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,6 +68,16 @@ public class Passenger extends User {
 			return false;
 		Driver other = (Driver) obj;
 		return Objects.equals(super.getId(), other.getId());
+	}
+
+	@Override
+	public String getUsername() {
+		return this.getName();
+	}
+
+	@Override
+	protected char determineTypeEntity() {
+		return 'P';
 	}
 
 }
