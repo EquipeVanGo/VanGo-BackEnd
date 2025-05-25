@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class Enterprise extends User {
 	private static final long serialVersionUID = 1L;
 
-	private java.lang.String cnpj;
+	private String cnpj;
 	private boolean active = true;
 
 	private final char typeEntity = 'E';

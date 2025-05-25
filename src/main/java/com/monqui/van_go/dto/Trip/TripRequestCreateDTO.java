@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class TripRequestCreateDTO {
 
 	private Long tripId;
-	private Enterprise enterpriseId;
+	private Long enterpriseId;
 	private Driver driver;
 	private Vehicle vehicle;
 	private String departureLocation;
@@ -26,7 +26,7 @@ public class TripRequestCreateDTO {
 	public TripRequestCreateDTO() {
 	}
 
-	public TripRequestCreateDTO(Long tripId, Enterprise enterpriseId, Driver driver, Vehicle vehicle,
+	public TripRequestCreateDTO(Long tripId, Long enterpriseId, Driver driver, Vehicle vehicle,
 			String departureLocation, LocalDateTime departureTime, String arrivalLocation, LocalDateTime arrivalTime,
 			String pngRoute) {
 		this.tripId = tripId;
@@ -48,11 +48,11 @@ public class TripRequestCreateDTO {
 		this.tripId = tripId;
 	}
 
-	public Enterprise getEnterpriseId() {
+	public Long getEnterpriseId() {
 		return enterpriseId;
 	}
 
-	public void setEnterpriseId(Enterprise enterpriseId) {
+	public void setEnterpriseId(Long enterpriseId) {
 		this.enterpriseId = enterpriseId;
 	}
 

@@ -17,7 +17,7 @@ public class Trips {
     private Long tripId;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "enterprise_id", nullable = true)
     @JsonManagedReference
     private Enterprise enterpriseId;
 

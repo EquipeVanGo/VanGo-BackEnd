@@ -10,9 +10,10 @@ import java.util.stream.Collectors;
 import com.monqui.van_go.dto.Trip.*;
 import com.monqui.van_go.dto.Trip.TripByPassengerDTO;
 import com.monqui.van_go.dto.passenger.PassengerRequestTripsDTO;
+import com.monqui.van_go.entities.Enterprise;
 import com.monqui.van_go.entities.Passenger;
 import com.monqui.van_go.entities.TripPassenger;
-import com.monqui.van_go.repositories.PassengerRepository;
+import com.monqui.van_go.repositories.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -21,20 +22,20 @@ import com.monqui.van_go.dto.passenger.PassengerRequestCreateDTO;
 import com.monqui.van_go.dto.vehicle.VehicleRequestDTO;
 import com.monqui.van_go.entities.Trips;
 import com.monqui.van_go.entities.location.Address;
-import com.monqui.van_go.repositories.AddressRepository;
-import com.monqui.van_go.repositories.TripsRepository;
 import com.monqui.van_go.services.interfaces.TripInterface;
 
 @Service
 public class TripService implements TripInterface {
 
 	private final AddressRepository addressRepository;
+	private final EnterpriseRepository enterpriseRepository;
 	private final TripsRepository tripsRepository;
 	private final PassengerRepository passengerRepository;
 
-	public TripService(AddressRepository addressRepository, TripsRepository tripsRepository, PassengerRepository passengerRepository) {
+	public TripService(AddressRepository addressRepository, EnterpriseRepository enterpriseRepository, TripsRepository tripsRepository, PassengerRepository passengerRepository) {
 		this.addressRepository = addressRepository;
-		this.tripsRepository = tripsRepository;
+        this.enterpriseRepository = enterpriseRepository;
+        this.tripsRepository = tripsRepository;
 		this.passengerRepository = passengerRepository;
 	}
 
@@ -80,12 +81,17 @@ public class TripService implements TripInterface {
 
 
 	public Trips tripsCreate(TripRequestCreateDTO tripRequestCreateDTO) {
-		Trips trips = new Trips(tripRequestCreateDTO.getTripId(), tripRequestCreateDTO.getEnterpriseId(),
+
+		Enterprise enterprise = enterpriseRepository.findById(tripRequestCreateDTO.getEnterpriseId())
+				.orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
+		Trips trips = new Trips(tripRequestCreateDTO.getTripId(),enterprise,
 				tripRequestCreateDTO.getDriver(), tripRequestCreateDTO.getVehicle(),
 				tripRequestCreateDTO.getDepartureTime(), tripRequestCreateDTO.getDepartureLocation(),
 				tripRequestCreateDTO.getDepartureLabel(),tripRequestCreateDTO.getArrivalTime(),
 				tripRequestCreateDTO.getArrivalLocation(),tripRequestCreateDTO.getArrivalLabel(),
 				tripRequestCreateDTO.getPngRoute(), new ArrayList<>());
+
 		return tripsRepository.save(trips);
 	}
 
@@ -114,8 +120,8 @@ public class TripService implements TripInterface {
 			dto.setDepartureTime(trip.getDepartureTime());
 			dto.setDepartureLocation(trip.getDepartureLocation());
 			dto.setEstimatedArrivalTime(trip.getArrivalTime());
-			dto.setDepartureLabel("Departure");
-			dto.setArrivalLabel("Arrival");
+			dto.setDepartureLabel(trip.getDepartureLabel());
+			dto.setArrivalLabel(trip.getArrivalLabel());
 
 			List<PassengerRequestCreateDTO> passengerDTOs = trip.getTripPassengers().stream()
 					.map(passenger -> new PassengerRequestCreateDTO(passenger.getId(), passenger.getPassenger().getName()))
