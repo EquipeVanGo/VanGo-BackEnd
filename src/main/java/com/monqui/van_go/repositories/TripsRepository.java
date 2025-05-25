@@ -31,7 +31,7 @@ public interface TripsRepository extends JpaRepository<Trips, Long> {
     List<String> searchUniqueMatchingTexts(@Param("text") String text);
 
 
-    @Query("SELECT t FROM Trips t LEFT JOIN FETCH t.tripPassengers WHERE t.tripId = :id")
+    @Query("SELECT t FROM Trips t WHERE t.driverId.id = :id")
     List<Trips> findByDriverId_Id(@Param("id") Long id);
 
     @Query("SELECT t FROM Trips t WHERE t.tripId = :id")

@@ -157,14 +157,15 @@ public class TripService implements TripInterface {
 		return false;
 	}
 
+	@Transactional
 	public List<TripByDriverDTO> getTripsByDriverId(Long driverId) {
 		List<Trips> trips = tripsRepository.findByDriverId_Id(driverId);
 
 		return trips.stream().map(trip -> {
 			TripByDriverDTO dto = new TripByDriverDTO();
 			dto.setTripId(trip.getTripId());
-			dto.setEnterpriseId(trip.getEnterpriseId() != null ? trip.getEnterpriseId().getId() : null);
-			dto.setDriverId(trip.getDriverId() != null ? trip.getDriverId().getId() : null);
+			dto.setEnterpriseId(trip.getEnterpriseId().getId());
+			dto.setDriverId(trip.getDriverId().getId());
 			dto.setDepartureTime(trip.getDepartureTime());
 			dto.setArrivalTime(trip.getArrivalTime());
 
