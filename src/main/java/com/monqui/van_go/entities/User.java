@@ -1,9 +1,16 @@
 package com.monqui.van_go.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.monqui.van_go.entities.location.Address;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +20,7 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
 
 @MappedSuperclass
-public abstract class User implements Serializable {
+public abstract class User implements UserDetails, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -25,18 +32,21 @@ public abstract class User implements Serializable {
 	private String email;
 	private String password;
 	private String telephone;
+	private final char typeEntity;
 
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 
 	public User() {
+		this.typeEntity = determineTypeEntity();
 	}
 
 	public User(Long id, java.lang.String name, Address address){
 		this.id = id;
 		this.name = name;
 		this.address = address;
+		this.typeEntity = determineTypeEntity();
 	}
 
 	public User(Long id, java.lang.String age, java.lang.String name,
@@ -49,6 +59,7 @@ public abstract class User implements Serializable {
 		this.password = password;
 		this.telephone = telephone;
 		this.address = address;
+		this.typeEntity = determineTypeEntity();
 	}
 
 	//Criar empresa sem idade
@@ -59,6 +70,14 @@ public abstract class User implements Serializable {
 		this.password = password;
 		this.telephone = telephone;
 		this.address = address;
+		this.typeEntity = determineTypeEntity();
+	}
+	
+    protected abstract char determineTypeEntity();
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	    return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
 	public Long getId() {
@@ -120,6 +139,11 @@ public abstract class User implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+	
+
+	public char getTypeEntity() {
+		return typeEntity;
 	}
 
 	@Override

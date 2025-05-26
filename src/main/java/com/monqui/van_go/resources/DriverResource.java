@@ -3,7 +3,6 @@ package com.monqui.van_go.resources;
 import java.util.List;
 import java.util.Map;
 
-import com.monqui.van_go.dto.LoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,14 +30,6 @@ public class DriverResource {
 		Driver driver = service.findById(id);
 		return ResponseEntity.ok().body(driver);
 	}
-
-	// Desabilitado devido a RN de ser criado somente por empresa.
-//	@PostMapping
-//	public ResponseEntity<Driver> insert(@RequestBody Driver driver) {
-//		driver = service.insert(driver);
-//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(driver.getId()).toUri();
-//		return ResponseEntity.created(uri).body(driver);
-//	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {

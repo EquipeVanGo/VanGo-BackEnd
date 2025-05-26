@@ -24,7 +24,6 @@ public class Driver extends User {
 	private java.lang.String cnhCategory;
 	private boolean active = true;
 
-	private final char typeEntity = 'D'; 
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE) 
@@ -37,8 +36,6 @@ public class Driver extends User {
 	
 	@OneToOne
 	private Vehicle vehicle;
-	
-	
 	
 
 	public Driver() {
@@ -101,11 +98,6 @@ public class Driver extends User {
 		this.active = active;
 	}
 	
-	public char getTypeEntity() {
-		return typeEntity;
-	}
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -124,5 +116,15 @@ public class Driver extends User {
 			return false;
 		Driver other = (Driver) obj;
 		return Objects.equals(super.getId(), other.getId());
+	}
+
+	@Override
+	public String getUsername() {
+		return this.getName();
+	}
+
+	@Override
+	protected char determineTypeEntity() {
+		return 'D';
 	}
 }
